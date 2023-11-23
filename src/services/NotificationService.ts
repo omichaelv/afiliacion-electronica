@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { NotificationRequest } from '../interfaces/requests/NotificationRequest';
-import {NotificationResponse} from '../interfaces/NotificationResponse';
+import {NotificationResponse } from '../interfaces/NotificationResponse';
 
 const sendNotification = async (data: NotificationRequest): Promise<NotificationResponse> => {
   const baseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -23,4 +23,4 @@ const sendNotification = async (data: NotificationRequest): Promise<Notification
   }
 };
 
-export default sendNotification;
+export default sendNotification; 

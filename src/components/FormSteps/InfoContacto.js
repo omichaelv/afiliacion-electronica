@@ -11,6 +11,7 @@ import {
   MenuItem,
   TextField
 } from "@mui/material";
+import logo from '../../logo.svg'
 
 
 function InfoContacto({ onNext }) {
@@ -58,7 +59,7 @@ function InfoContacto({ onNext }) {
           <Box align="left">
           </Box>
           <Typography align="center" variant="h6" sx={{ml:-8}} style={{ flexGrow: 1 }}>
-            Logo
+            <img src={logo} className="App-logo" alt="logo" />
           </Typography>
         </Toolbar>
       </AppBar>

@@ -12,6 +12,7 @@ import {
   TextField
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
+import logo from '../../logo.svg'
 
 function Peps({ onNext }) {
 
@@ -75,7 +76,7 @@ function Peps({ onNext }) {
             ></Button>
           </Box>
           <Typography align="center" variant="h6" sx={{ml:-8}} style={{ flexGrow: 1 }}>
-            Logo
+          <img src={logo} className="App-logo" alt="logo" />
           </Typography>
         </Toolbar>
       </AppBar>

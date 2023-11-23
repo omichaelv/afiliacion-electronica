@@ -8,6 +8,8 @@ import {
 } from "@mui/material";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LightMode from "@mui/icons-material/LightMode";
+import logo from '../../logo.svg'
+import phone from '../../resources/phone.png'
 
 function SelfieMensaje({ onNext }) {
 
@@ -35,21 +37,25 @@ function SelfieMensaje({ onNext }) {
       >
         <Toolbar>
           <Typography align="center" variant="h6" style={{ flexGrow: 1 }}>
-            Logo
+          <img src={logo} className="App-logo" alt="logo" />
           </Typography>
         </Toolbar>
       </AppBar>
 
+
+      <Box align="center">
       <Typography
         variant="body4"
         component="h3"
         gutterBottom
         align="center"
         color={"white"}
-        sx={{ mt: 15 }}
+        sx={{ mt: 5,display: "block" }}
       >
-        Preparate Para Tomarte Una Fotografia
+        <img src={phone} className="App-logo" alt="logo" />
+        <br></br> Preparate Para Tomarte Una Fotografia
       </Typography>
+      </Box>
       
       <Box align="center">
       <Box display="flex" justifyContent="center" alignItems="center" color="white" sx={{mt:2, mx:2}} gutterBottom>

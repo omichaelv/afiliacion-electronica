@@ -9,6 +9,7 @@ import {
 import PersonIcon from '@mui/icons-material/Person';
 import Webcam from "react-webcam";
 import Tesseract from 'tesseract.js';
+import logo from '../../logo.svg'
 
 function SelfieCaptura({ onNext }) {
 
@@ -74,7 +75,7 @@ function SelfieCaptura({ onNext }) {
            
           </Box>
           <Typography align="center" variant="h6" style={{ flexGrow: 1 }}>
-            Logo
+          <img src={logo} className="App-logo" alt="logo" />
           </Typography>
         </Toolbar>
       </AppBar>

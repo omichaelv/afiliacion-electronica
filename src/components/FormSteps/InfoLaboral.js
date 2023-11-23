@@ -16,7 +16,7 @@ import {
   Select,
   MenuItem
 } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
+import logo from '../../logo.svg'
 
 function InfoLaboral({ onNext }) {
 
@@ -85,7 +85,7 @@ function InfoLaboral({ onNext }) {
         
         <Toolbar>
           <Typography align="center" variant="h6" sx={{ml:-8}} style={{ flexGrow: 1 }}>
-            Logo
+              <img src={logo} className="App-logo" alt="logo" />
           </Typography>
         </Toolbar>
       </AppBar>
@@ -152,8 +152,9 @@ function InfoLaboral({ onNext }) {
         </RadioGroup>
         {tipoTrabajador === "Dependiente" && (
             <Box sx={{mx:2}} >
+              <InputLabel htmlFor="conoceInfoEmpleador" sx={{mt:3}}>¿Conoces la información de tu empleador?</InputLabel>
                 <FormControl fullWidth margin="normal">
-                        <InputLabel htmlFor="conoceInfoEmpleador">¿Conoces la información de tu empleador?</InputLabel>
+                        
                         <Select required id="conoceInfoEmpleador" label="" style={{ backgroundColor: 'white' }} value={conoceInfoEmpleador} onChange={(e) => handleConoceInfoEmpleador(e.target.value)}>
                             <MenuItem value="Si">Si</MenuItem>
                             <MenuItem value="No">No</MenuItem>
@@ -212,7 +213,7 @@ function InfoLaboral({ onNext }) {
         )}
 
 
-        <FormControlLabel
+        <FormControlLabel sx={{ml:2}}
             control={<Checkbox onChange={handleCheckboxChange} />}
             label="Confirmo que he leído y comprendido la declaración, y que los datos son correctos."
         />

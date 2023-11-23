@@ -10,6 +10,8 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import Webcam from "react-webcam";
 import Tesseract from 'tesseract.js';
+import logo from '../../logo.svg'
+
 
 function DocumentoScan({ onNext }) {
   const [usarCodigoAsesor, setusarCodigoAsesor] = useState("");
@@ -105,7 +107,7 @@ function DocumentoScan({ onNext }) {
            
           </Box>
           <Typography align="center" variant="h6" style={{ flexGrow: 1 }}>
-            Logo
+            <img src={logo} className="App-logo" alt="logo" />
           </Typography>
         </Toolbar>
       </AppBar>

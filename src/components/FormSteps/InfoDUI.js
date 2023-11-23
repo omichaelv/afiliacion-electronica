@@ -6,7 +6,7 @@ import {
   Typography,
   Button
 } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
+import logo from '../../logo.svg'
 
 function InfoDUI({ onNext }) {
 
@@ -34,7 +34,7 @@ function InfoDUI({ onNext }) {
         
         <Toolbar>
           <Typography align="center" variant="h6" style={{ flexGrow: 1 }}>
-            Logo
+             <img src={logo} className="App-logo" alt="logo" />
           </Typography>
         </Toolbar>
       </AppBar>

@@ -7,10 +7,13 @@ import {
   Button,
   FormGroup,
   TextField,
+  InputLabel
 } from "@mui/material";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LightMode from "@mui/icons-material/LightMode";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import logo from '../../logo.svg'
+import id from '../../resources/id.png'
 
 function AgentePrevisional({ onNext, onAdvisorCodeChange }) {
   const [codigoAsesor, setcodigoAsesor] = useState("");
@@ -49,7 +52,7 @@ function AgentePrevisional({ onNext, onAdvisorCodeChange }) {
             </Box>
           )}
           <Typography align="center" variant="h6" style={{ flexGrow: 1 }}>
-            Logo
+            <img src={logo} className="App-logo" alt="logo" />
           </Typography>
         </Toolbar>
       </AppBar>
@@ -60,8 +63,9 @@ function AgentePrevisional({ onNext, onAdvisorCodeChange }) {
         gutterBottom
         align="center"
         color={"white"}
-        sx={{ mt: 15 }}
+        sx={{ mt: 2 }}
       >
+        <img src={id} className="id-foto" alt="id" />
         Identificación Digital
       </Typography>
       <Typography variant="body2" align="center" color={"white"} sx={{ my: 2 }}>
@@ -72,13 +76,25 @@ function AgentePrevisional({ onNext, onAdvisorCodeChange }) {
         Para este proceso requerirás:
       </Typography>
 
-      <Typography variant="body2" align="center" color={"white"} gutterBottom>
-        <CreditCardIcon color={"white"} /> DUI legible y en buenas condiciones
-      </Typography>
-      <Typography variant="body2" align="center" color={"white"} gutterBottom>
-        <LightMode color={"white"} /> Buena iluminación para captura de
+      <Box align="center">
+
+      
+      <Box display="flex" justifyContent="center" alignItems="center" color="white" sx={{mt:2, mx:2}} gutterBottom>
+        <CreditCardIcon color={"white"} />
+        <Typography variant="body2" align="justify" color={"white"} sx={{ ml: 1 }} gutterBottom>
+           DUI legible y en buenas condiciones
+        </Typography>
+      </Box>
+      <Box display="flex" justifyContent="center" alignItems="center" color="white" sx={{mt:2, mx:2}} gutterBottom>
+      <LightMode color={"white"} />
+      <Typography variant="body2" align="justify" sx={{ ml: 1 }} color={"white"} gutterBottom>
+         Buena iluminación para captura de
         documento y toma de autorretrato
       </Typography>
+      </Box>
+      </Box>
+
+
       <Typography variant="body2" align="center" color={"white"} sx={{ my: 2 }}>
         Este trámite es personal y debe ser realizado únicamente por el titular.
         Aplica solo para salvadoreños.
@@ -117,12 +133,13 @@ function AgentePrevisional({ onNext, onAdvisorCodeChange }) {
             Pídele al asesor que ingrese su código
           </Typography>
           <FormGroup>
+          <InputLabel align="left" sx={{ml:2, color:'white'}} htmlFor="codigoAsesor">Código de Asesor</InputLabel>
             <TextField
               required
               style={{ backgroundColor: "white" }}
               sx={{ margin: 1, mx:2 }}
               margin="normal"
-              label="Codigo de asesor"
+              id="codigoAsesor"
               placeholder="Ej. 107885445"
               value={codigoAsesor}
               onChange={(e) => setcodigoAsesor(e.target.value)}
