@@ -10,13 +10,21 @@ import InfoContacto from './components/FormSteps/InfoContacto';
 import InfoLaboral from './components/FormSteps/InfoLaboral';
 
 const App = () => {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [advisorCode, setAdvisorCode] = useState('');
-
   
-  const handleAdvisorCodeChange = (event) => {
-    setAdvisorCode(event.target.value);
+
+  //States From Different Steps
+  const [agenteDetails, setAgenteDetails] = useState(null); // State to store agente details
+
+  //Function to Save Data From Steps
+  const handleAgenteDetails = (details) => {
+    console.log("LA PANTALLA ME DIO ", details);
+    setAgenteDetails(details);
   };
+
+  //Steps States
+  const [currentStep, setCurrentStep] = useState(1);
+
+  //Step Functions
 
   const irPeps = () => {
     setCurrentStep(2);
@@ -57,7 +65,7 @@ const App = () => {
   return (
     <div>
       {currentStep === 1 && (
-        <AgentePrevisional onNext={irPeps} onAdvisorCodeChange={handleAdvisorCodeChange} />
+        <AgentePrevisional onNext={irPeps}  onAgenteDetailsFetched={handleAgenteDetails} />
       )}
       {currentStep === 2 && (<Peps onNext={irFotografiaDocumentos} />)}
       {currentStep === 3 && (<DocumentoScan onNext={irSelfieMensaje} />)}

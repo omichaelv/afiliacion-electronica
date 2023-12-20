@@ -1,4 +1,4 @@
-const firmarDocumentoService = require('../services/firmarDocumento');
+const firmarDocumentoService = require('../services/firmarDocumentoService');
 
 const firmarDocumento = async (req, res) => {
     try {

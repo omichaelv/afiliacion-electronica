@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { Ref, createRef, useEffect, useState, useRef, useCallback } from "react";
 import {
   AppBar,
   Toolbar,
@@ -11,6 +11,8 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import Webcam from "react-webcam";
 import Tesseract from 'tesseract.js';
 import logo from '../../logo.svg'
+import { FPhi } from "@facephi/selphid-widget-web";
+
 
 
 function DocumentoScan({ onNext }) {
@@ -83,7 +85,133 @@ function DocumentoScan({ onNext }) {
     onNext(usarCodigoAsesor);
   };
 
+  // PhotoIdDocument
 
+  const FPhiCameraResolutions = {
+    "res480p": {title: "640x480", width: 640, height: 480},
+    "res600p": {title: "800x600", width: 800, height: 600},
+    "res768p": {title: "1024x768", width: 1024, height: 768},
+    "res720p": {title: "1280x720 (720p)", width: 1280, height: 720},
+    "res1080p": {title: "1920x1080 (1080p)", width: 1920, height: 1080}
+};
+
+const [isWidgetCaptureStarted, setIsWidgetCaptureStarted] = useState(false);
+const [widgetPreviewCapture, setWidgetPreviewCapture] = useState(true);
+const [widgetForceLandscape, setWidgetForceLandscape] = useState(false);
+const [widgetInitialTip, setWidgetInitialTip] = useState(false);
+const [widgetDebugMode, setWidgetDebugMode] = useState(false);
+const [widgetCameraResolution, setWidgetCameraResolution] = useState("res720p");
+const [widgetCameraWidth, setWidgetCameraWidth] = useState(FPhiCameraResolutions.res720p.width);
+const [widgetCameraHeight, setWidgetCameraHeight] = useState(FPhiCameraResolutions.res720p.height);
+const [widgetVideoRecord, setWidgetVideoRecord] = useState(false);
+const [widgetShowLog, setWidgetShowLog] = useState(false);
+const [widgetStartSimpleMode, setWidgetStartSimpleMode] = useState(false);
+const [widgetLicenseKey, setWidgetLicenseKey] = useState("");
+
+
+if (!widgetLicenseKey) {
+    const licenseKey = window.prompt("Please, enter the license key before start the operations: ") || "";
+    setWidgetLicenseKey(licenseKey);
+
+    // Load widget resources before it starts (Need server headers to be configured)
+    FPhi.SelphID.generateBrowserCache("../../../public/assets/selphid", licenseKey);
+}
+
+const startSimpleMode = () => {
+    setWidgetStartSimpleMode(true);
+    setIsWidgetCaptureStarted(true);
+}
+
+const onCameraResolutionSet = (event) => {
+    setWidgetCameraWidth(FPhiCameraResolutions[event.target.value].width);
+    setWidgetCameraHeight(FPhiCameraResolutions[event.target.value].height);
+
+    setWidgetCameraResolution(event.target.value);
+}
+
+const onStartCapture = async () => {
+    console.warn(">>>> [app] onStartCapture");
+
+    checkCapabilities();
+
+    setIsWidgetCaptureStarted(true);
+}
+
+const onStopCapture = () => {
+    console.warn(">>>> [app] onStopCapture");
+
+    setIsWidgetCaptureStarted(false);
+    setWidgetStartSimpleMode(false);
+}
+
+// Widget event handlers
+const onModuleLoaded = (eventData) => console.warn("[SelphID] onModuleLoaded", eventData);
+
+
+const onExtractionFinished = (extractionResult) => {
+    console.warn("[SelphID] onExtractionFinished");
+    console.log(extractionResult.detail);
+
+    setIsWidgetCaptureStarted(false);
+    setWidgetStartSimpleMode(false);
+}
+
+const onUserCancelled = () => {
+    console.warn("[SelphID] onUserCancelled");
+
+    setIsWidgetCaptureStarted(false);
+    setWidgetStartSimpleMode(false);
+}
+
+const onExceptionCaptured = (exceptionResult) => {
+    console.warn("[SelphID] onExceptionCaptured");
+    console.log(exceptionResult.detail);
+
+    setIsWidgetCaptureStarted(false);
+    setWidgetStartSimpleMode(false);
+}
+
+const onExtractionTimeout = (eventInfo) => {
+    console.warn("[SelphID] onExtractionTimeout", eventInfo);
+
+    setIsWidgetCaptureStarted(false);
+    setWidgetStartSimpleMode(false);
+}
+
+const onTrackStatus = (eventData) => {
+    let trackStatusCode = Object.entries(FPhi.SelphID.TrackStatus).find(e => e[1] === eventData.detail.code) || [];
+    console.warn(`[SelphID] onTrackStatus (Code: ${trackStatusCode[1]} - ${trackStatusCode[0]}, Timestamp: ${eventData.detail.timeStamp}`);
+    console.log(eventData);
+}
+
+// Methods
+async function checkCapabilities() {
+  // Check device capabilities (browser, memory, webassembly...) with checkCapabilities method
+  let checkCapabilities = await FPhi.SelphID.CheckCapabilities();
+  console.log("SelphID: Widget Check Capabilities Check:\n", checkCapabilities);
+}
+
+const widgetRef = createRef();
+const [componentMounted, setComponentMounted] = useState(false);
+
+useEffect(() => {
+    if (!componentMounted) {
+        setComponentMounted(true);
+    } else {
+        if (isWidgetCaptureStarted) {
+            const node = widgetRef.current;
+
+            if (node) {
+                node.addEventListener("onModuleLoaded", onModuleLoaded);
+                node.addEventListener("onExtractionFinished", onExtractionFinished);
+                node.addEventListener("onUserCancelled", onUserCancelled);
+                node.addEventListener("onExceptionCaptured", onExceptionCaptured);
+                node.addEventListener("onExtractionTimeout", onExtractionTimeout);
+                node.addEventListener("onTrackStatus", onTrackStatus);
+            }
+        }
+    }
+}, [isWidgetCaptureStarted, widgetRef, widgetLicenseKey]);
 
   return (
     <Box
@@ -181,13 +309,35 @@ function DocumentoScan({ onNext }) {
                      Coloca tu documento en la parte frontal
                 </Typography> 
             </Box>
-                <Webcam
-                    audio={false}
-                    ref={webcamRefFrontal}
-                    screenshotFormat="image/jpeg"
-                    hidden={capturarFrontalBool}
-                    style={{maxWidth: '100vw',objectFit: 'contain'}}
-                />
+            <facephi-selphid
+                        ref={widgetRef}
+                        style={{
+                            width: "100%",
+                            height: widgetForceLandscape ? "56.25%" : "100%"
+                        }}
+                        className={`bg-dark`}
+
+                        // Setup propierties
+                        bundlePath="../../../public/assets/selphid"
+                        licenseKey={widgetLicenseKey}
+                        language="es"
+                        documentAspectRatio={85.60 / 53.98}
+                        previewCapture={widgetPreviewCapture}
+                        forceLandscape={widgetForceLandscape}
+                        initialTip={widgetInitialTip}
+                        imageFormat={"image/jpeg"}
+                        cameraWidth={widgetCameraWidth}
+                        cameraHeight={widgetCameraHeight}
+                        specificData={"ES"}
+                        startSimpleMode={widgetStartSimpleMode}
+                        videoRecord={widgetVideoRecord}
+                        videoRecordType={FPhi.SelphID.RecorderType.Remote}
+                        videoRecordScale={widgetCameraWidth < 1280 ? 1 : 0.5}
+                        showLog={widgetShowLog}
+                        debugMode={widgetDebugMode}
+                    ></facephi-selphid>
+
+           
                 <Box align="center" sx={{mx:2}} >
                   <Button startIcon={<CameraAltIcon/>} fullWidth sx={{  mt: 3, color: "white"}}  variant="contained" onClick={capture} >Capturar</Button>
                 </Box>

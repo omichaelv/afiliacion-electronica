@@ -7,32 +7,74 @@ import {
   Button,
   FormGroup,
   TextField,
-  InputLabel
+  InputLabel,
+  Grid,
+  Snackbar 
 } from "@mui/material";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LightMode from "@mui/icons-material/LightMode";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import logo from '../../logo.svg'
-import id from '../../resources/id.png'
+import logo from "../../logo.svg";
+import id from "../../resources/id.png";
+import getAgenteDetails from "../../services/AgenteService";
+import IntroInfo from './shared/IntroInfo';
+import HeadphonesIcon from '@mui/icons-material/Headphones';
 
-function AgentePrevisional({ onNext, onAdvisorCodeChange }) {
+
+function AgentePrevisional({ onNext, onAgenteDetailsFetched }) {
   const [codigoAsesor, setcodigoAsesor] = useState("");
   const [usarCodigoAsesor, setusarCodigoAsesor] = useState("");
 
+  //Notification
+  const [open, setOpen] = useState(false);
+  const [mensajeNoti, setMensaje] = useState("");
+  const handleCloseNoti = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setMensaje("");
+    setOpen(false);
+  };
+  
+  //Service
+
+  const handleGetAgenteDetails = async () => {
+    try {
+      console.log(codigoAsesor);
+      const agenteDetails = await getAgenteDetails(codigoAsesor);
+      if (agenteDetails.success) {
+        onAgenteDetailsFetched(agenteDetails);
+        handleNext(); // proceed to the next step
+      } else {
+        // handle error, show message, etc.
+        setMensaje(agenteDetails.mensaje);
+        setOpen(true);
+        console.error(agenteDetails.mensaje);
+      }
+    } catch (error) {
+      setMensaje("Error comunicandose con el servidor");
+      setOpen(true);
+      console.error("Error comunicandose con el servidor: ", error);
+      // handle error, e.g., show an alert or set an error state
+    }
+  };
+
+  const handleNo = () => {
+    onAgenteDetailsFetched(null);
+    onNext();
+  }
   const handleNext = () => {
-    
     onNext();
   };
 
   return (
     <Box
       sx={{
-        bgcolor: "#00559c",
-        display: "flex", 
-        flexDirection: "column", 
-        width: "100%", 
-        minHeight: "100vh", 
-        overflow: "auto", 
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        minHeight: "100vh",
+        overflow: "auto",
       }}
     >
       <AppBar
@@ -57,107 +99,162 @@ function AgentePrevisional({ onNext, onAdvisorCodeChange }) {
         </Toolbar>
       </AppBar>
 
-      <Typography
-        variant="body4"
-        component="h3"
-        gutterBottom
-        align="center"
-        color={"white"}
-        sx={{ mt: 2 }}
-      >
-        <img src={id} className="id-foto" alt="id" />
-        Identificación Digital
-      </Typography>
-      <Typography variant="body2" align="center" color={"white"} sx={{ my: 2 }}>
-        A través del proceso de identificación digital podrás hacer un mejor uso
-        de nuestros canales digitales.
-      </Typography>
-      <Typography variant="body2" align="center" color={"white"} gutterBottom>
-        Para este proceso requerirás:
-      </Typography>
-
-      <Box align="center">
-
-      
-      <Box display="flex" justifyContent="center" alignItems="center" color="white" sx={{mt:2, mx:2}} gutterBottom>
-        <CreditCardIcon color={"white"} />
-        <Typography variant="body2" align="justify" color={"white"} sx={{ ml: 1 }} gutterBottom>
-           DUI legible y en buenas condiciones
-        </Typography>
-      </Box>
-      <Box display="flex" justifyContent="center" alignItems="center" color="white" sx={{mt:2, mx:2}} gutterBottom>
-      <LightMode color={"white"} />
-      <Typography variant="body2" align="justify" sx={{ ml: 1 }} color={"white"} gutterBottom>
-         Buena iluminación para captura de
-        documento y toma de autorretrato
-      </Typography>
-      </Box>
-      </Box>
-
-
-      <Typography variant="body2" align="center" color={"white"} sx={{ my: 2 }}>
-        Este trámite es personal y debe ser realizado únicamente por el titular.
-        Aplica solo para salvadoreños.
-      </Typography>
-      <Typography variant="body2" align="center" color={"white"} sx={{ my: 2 }}>
-        Toma en cuenta: Este servicio podrás realizarlo únicamente a través de
-        dispositivos móviles.
-      </Typography>
-      <Typography variant="body2" align="center" color={"white"} sx={{ my: 2 }}>
-        ¿Estás siendo atendido por un agente previsional?
-      </Typography>
-
-      {usarCodigoAsesor !== "Si" && (
-        <Box align="center">
-          <Button
-            variant="contained"
-            onClick={() => setusarCodigoAsesor("Si")}
-            sx={{ mr: 1 }}
-          >
-            Sí
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleCloseNoti}
+        message = {mensajeNoti}
+        action={
+          <Button color="secondary" size="small" onClick={handleCloseNoti}>
+            DISMISS
           </Button>
-          <Button variant="contained" onClick={handleNext}>
-            No
-          </Button>
-        </Box>
-      )}
+        }
+      />
 
-      {usarCodigoAsesor === "Si" && (
-        <Box align="center">
-          <Typography
-            variant="body2"
-            align="center"
-            color={"white"}
-            sx={{ my: 2 , ml:5}}
+      <Box sx={{ bgcolor: "#00559c" }}>
+        <Grid
+          container
+          spacing={0}
+          sx={{
+             // Horizontal margin: 1 on xs, 3 on md and up
+          }}
+        >
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={4}
+            sx={{ bgcolor: { md: "#00559c", lg: "#00559c" } }}
           >
-            Pídele al asesor que ingrese su código
-          </Typography>
-          <FormGroup>
-          <InputLabel align="left" sx={{ml:2, color:'white'}} htmlFor="codigoAsesor">Código de Asesor</InputLabel>
-            <TextField
-              required
-              style={{ backgroundColor: "white" }}
-              sx={{ margin: 1, mx:2 }}
-              margin="normal"
-              id="codigoAsesor"
-              placeholder="Ej. 107885445"
-              value={codigoAsesor}
-              onChange={(e) => setcodigoAsesor(e.target.value)}
-            />
-          </FormGroup>
-          <Box align="center" sx={{ mx:2}}>
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={handleNext}
-            sx={{ mt: 3 }}
-          >
-            Continuar
-          </Button>
+            <IntroInfo  />
+          </Grid>
+          <Grid item xs={12} md={12} lg={8} sx={{ bgcolor: { lg: "white" }, mb:{xs:5, lg:0} }}>
+            {" "}
+            {/* 100% on mobile, 25% on desktop */}
+            <Box sx={{
+               textAlign: {xs:"center", md:"center", lg: "left"},
+            }}>
+              <HeadphonesIcon color={"black"} sx={{
+              fontSize: { lg: "200px" },
+              alignText: { lg: "center" },
+              display: { xs: 'none', md: 'none', lg: "block" }
+            }} />
+            <Typography
+              variant="body2"
+              
+              sx={{ 
+                my: 2, 
+                color: {xs: "white", md:"white", lg: "black"},
+                fontSize: {lg:"35px"},
+                fontWeight: {lg:'bold'},
+                ml: {lg:2}
+              
+              }}
+            >
+              ¿Estás siendo atendido por un agente previsional?
+            </Typography>
+            {usarCodigoAsesor !== "Si" && (
+              <Box sx={{
+                textAlign: {xs:"center", md:"center", lg: "left"},
+                ml: {lg:13}
+             }}>
+                <Button
+                  variant="contained"
+                  onClick={() => setusarCodigoAsesor("Si")}
+                  sx={{ 
+                    mr: 1, 
+                    fontSize: {lg:"30px"},
+                    width: {sx:"80px", md:"80px", lg:"100px"},  
+                    height: {sx:"40px", md:"40px", lg:"50px"}   
+                  }}
+                >
+                  Sí
+                </Button>
+                <Button variant="contained" onClick={handleNo} sx={{ 
+                    fontSize: {lg:"30px"},
+                    width: {sx:"80px", md:"80px", lg:"100px"},  
+                    height: {sx:"40px", md:"40px", lg:"50px"}   
+                  }}>
+                  No
+                </Button>
+              </Box>
+            )}
+            {usarCodigoAsesor === "Si" && (
+          <Box >
+            
+            <Typography
+              variant="body2"
+              
+              color={"white"}
+              sx={{ 
+                my: 2, 
+                color: {xs: "white", md:"white", lg: "black"},
+                fontSize: {lg:"35px"},
+                fontWeight: {lg:'bold'},
+                ml: {lg:2}
+                 }}
+            >
+              Pídele al asesor que ingrese su código
+            </Typography>
+            <FormGroup>
+              <InputLabel
+                
+                sx={{ ml: 2,
+                  fontSize: {lg:"25px"},
+                  color: {xs: "white", md:"white", lg: "black"},
+                  alignText: {xs: "left", md:"left", lg:"left"}
+                }}
+                htmlFor="codigoAsesor"
+              >
+                Código de Asesor
+              </InputLabel>
+              <TextField
+                required
+                style={{ backgroundColor: "white" }}
+                sx={{ 
+                  margin: 1, 
+                  mx: 2,
+                  width: { lg:"500px"},  
+                  height: { lg:"40px"} 
+                }}
+                margin="normal"
+                id="codigoAsesor"
+                placeholder="Ej. 107885445"
+                value={codigoAsesor}
+                onChange={(e) => setcodigoAsesor(e.target.value)}
+              />
+            </FormGroup>
+            <Box sx={{ 
+              mx: 2 ,
+              align:"left",
+              alignText: {sx:"center", md:"center", lg:"left"}
+              }}>
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={handleGetAgenteDetails}
+                sx={{ 
+                  mt: 3,
+                  width: { lg:"500px"},  
+                  height: { lg:"40px"},
+                  fontSize: {lg:"20px"},
+                  fontWeight: {lg:'bold'}
+                  
+              }}
+              >
+                Continuar
+              </Button>
+            </Box>
+            
           </Box>
-          
-        </Box>
-      )}
+        )}
+            </Box>
+            
+          </Grid>
+        </Grid>
+
+        
+      </Box>
     </Box>
   );
 }

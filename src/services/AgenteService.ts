@@ -1,16 +1,29 @@
 import axios from 'axios';
 import { AgenteDetails } from '../interfaces/AgenteDetails';
+import { encrypt, decrypt } from '../../src/util/cryptoUtil';
 
 const getAgenteDetails = async (codigoAgente: string): Promise<AgenteDetails> => {
   const baseUrl = process.env.REACT_APP_API_BASE_URL;
-  const url = `${baseUrl}/consultaAgente/${codigoAgente}`;
+  console.log("Base URL:", process.env.REACT_APP_API_BASE_URL);
+  const url = `${baseUrl}/consultaAgente`;
 
   try {
-    const response = await axios.get<AgenteDetails>(url);
-    return response.data;
+    // Encrypt the request data
+    const encryptedData = encrypt(codigoAgente);
+    const response = await axios.post<{ data: string }>(url, { data: encryptedData });
+    console.log("REPOSNE", response);
+    // Assuming the response data is encrypted
+    const decryptedData = decrypt(response.data);
+    return JSON.parse(decryptedData) as AgenteDetails;
   } catch (error) {
     console.error("Fetching error: ", error);
-    // You might want to handle or rethrow the error differently depending on your use case
+
+    if (axios.isAxiosError(error) && error.response) {
+      // Assuming the error response data is encrypted
+      const decryptedData = decrypt(error.response.data);
+      return JSON.parse(decryptedData) as AgenteDetails;
+    }
+
     throw error;
   }
 };

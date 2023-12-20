@@ -1,23 +1,32 @@
-const crypto = require('crypto');
+const CryptoJS = require('crypto-js');
 
-const algorithm = 'aes-256-cbc'; // Using AES 256 CBC mode
-const key = crypto.randomBytes(32); // Key should be 256 bits (32 bytes)
-const iv = crypto.randomBytes(16); // IV should be 128 bits (16 bytes)
+// Convert hex to base64
+const hexToBase64 = (hexString) => Buffer.from(hexString, 'hex').toString('base64');
 
-function encrypt(text) {
-  let cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
-  let encrypted = cipher.update(text);
-  encrypted = Buffer.concat([encrypted, cipher.final()]);
-  return { iv: iv.toString('hex'), encryptedData: encrypted.toString('hex') };
-}
+// Assuming KEY and IV are provided as hex strings in environment variables
+const base64Key = hexToBase64(process.env.KEY || '');
+const base64IV = hexToBase64(process.env.IV || '');
 
-function decrypt(text) {
-  let iv = Buffer.from(text.iv, 'hex');
-  let encryptedText = Buffer.from(text.encryptedData, 'hex');
-  let decipher = crypto.createDecipheriv(algorithm, Buffer.from(key), iv);
-  let decrypted = decipher.update(encryptedText);
-  decrypted = Buffer.concat([decrypted, decipher.final()]);
-  return decrypted.toString();
-}
+const key = CryptoJS.enc.Base64.parse(base64Key);
+const iv = CryptoJS.enc.Base64.parse(base64IV);
+
+const encrypt = (text) => {
+  const encrypted = CryptoJS.AES.encrypt(text, key, {
+    iv: iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7
+  });
+  return encrypted.toString();
+};
+
+const decrypt = (ciphertext) => {
+  
+  const decrypted = CryptoJS.AES.decrypt(ciphertext, key, {
+    iv: iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7
+  });
+  return decrypted.toString(CryptoJS.enc.Utf8);
+};
 
 module.exports = { encrypt, decrypt };

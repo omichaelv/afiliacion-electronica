@@ -1,4 +1,4 @@
-const verficacionBiometricaService = require('../services/verficacionBiometrica');
+const verficacionBiometricaService = require('../services/verficacionBiometricaService');
 
 const verficacionBiometrica = async (req, res) => {
     try {
