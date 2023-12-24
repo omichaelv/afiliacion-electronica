@@ -13,7 +13,10 @@ const App = () => {
   
 
   //States From Different Steps
-  const [agenteDetails, setAgenteDetails] = useState(null); // State to store agente details
+  const [agenteDetails, setAgenteDetails] = useState(null); 
+  const [pepsDetails, setpepsDetails] = useState(null); 
+  const [scanIdDetails, setScanIdDetails] = useState(null); 
+  const [biometricResults, setBiometricResults] = useState(null);
 
   //Function to Save Data From Steps
   const handleAgenteDetails = (details) => {
@@ -67,10 +70,10 @@ const App = () => {
       {currentStep === 1 && (
         <AgentePrevisional onNext={irPeps}  onAgenteDetailsFetched={handleAgenteDetails} />
       )}
-      {currentStep === 2 && (<Peps onNext={irFotografiaDocumentos} />)}
-      {currentStep === 3 && (<DocumentoScan onNext={irSelfieMensaje} />)}
-      {currentStep === 4 && (<SelfieMensaje onNext={irSelfieCaptura} />)}
-      {currentStep === 5 && (<SelfieCaptura onNext={irDatosResumen} />)}
+      {currentStep === 2 && (<Peps onNext={irFotografiaDocumentos} onPeps={setpepsDetails} />)}
+      {currentStep === 3 && (<DocumentoScan onNext={irSelfieMensaje} onScanId={setScanIdDetails} />)}
+      {currentStep === 4 && (<SelfieMensaje onNext={irSelfieCaptura}  />)}
+      {currentStep === 5 && (<SelfieCaptura onNext={irDatosResumen} onSelfi={setBiometricResults} documentoData={scanIdDetails}/>)}
       {currentStep === 6 && (<InfoDUI onNext={irDatosContacto} />)}
       {currentStep === 7 && (<InfoContacto onNext={irInfoLaboral} />)}
       {currentStep === 8 && (<InfoLaboral onNext={irInfoLaboral} />)}

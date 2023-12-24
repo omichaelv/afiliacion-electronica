@@ -7,6 +7,7 @@ const validarAfiliacion = async (encryptedData) => {
     // Decrypt the request data
     const decryptedRequest = decrypt(encryptedData);
     const requestData = JSON.parse(decryptedRequest);
+    const hostKey = `${process.env.CURRENT_ENV}_HOST`;
 
     // Make the actual API call to the original endpoint
     const token = await getToken();
@@ -17,8 +18,9 @@ const validarAfiliacion = async (encryptedData) => {
     try {
       const response = await axios.post(url, requestData, {
         headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Host': process.env[hostKey]
         },
       });
   

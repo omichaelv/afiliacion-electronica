@@ -1,7 +1,11 @@
 export interface AgenteDetails {
     success: boolean;
     mensaje: string;
-    codigo_agente: string;
-    nombre_agente: string;
-    correo_electronico_agente: string;
+    codigoAgente: string;
+    primerNombreAgente: string;
+    segundoNombreAgente: string;
+    primerApellidoAgente:string;
+    segundoApellidoAgente: string;
+    apellidoCasadaAgente:string;
+    correoElectronico: string;
   }

@@ -2,5 +2,6 @@ export interface PrintCAResponse {
     success: boolean;
     mensaje: string;
     pdf: string;
-    numero_solicitud: string;
+    numeroSolicitud : string;
+    tipoAfiliacion: string;
   }

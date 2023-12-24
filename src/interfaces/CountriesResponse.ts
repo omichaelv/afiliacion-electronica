@@ -1,9 +1,9 @@
 export interface Country {
-    cod_pais: string;
+    codPais : string;
     nombre: string;
     nacionalidad: string;
-    cod_area: string;
-    cod_emoji_bandera: string;
+    codArea: string;
+    codEmojiBandera: string;
   }
   
   export interface CountriesResponse {

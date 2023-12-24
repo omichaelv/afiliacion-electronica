@@ -2,7 +2,7 @@ const firmarDocumentoService = require('../services/firmarDocumentoService');
 
 const firmarDocumento = async (req, res) => {
     try {
-        const response = await firmarDocumentoService.firmarDocumento(req.body);
+        const response = await firmarDocumentoService.firmarDocumento(req.body.data);
         res.json(response);
     } catch (error) {
         console.error("Error in firmarDocumento Controller: ", error);

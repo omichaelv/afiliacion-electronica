@@ -1,44 +1,53 @@
 export interface PrintCARequest {
-    nombre_completo: string;
-    primer_nombre: string;
-    segundo_nombre: string;
-    primer_apellido: string;
-    segundo_apellido: string;
-    apellido_casada: string;
-    numero_isss: string;
-    nacionalidad: string;
-    conocido_por: string;
-    sexo: string;
-    fecha_nacimiento: string;
-    tel_celular: string;
-    correo_electronico: string;
-    direccion: string;
-    departamento: string;
-    municipio: string;
-    pais: string;
-    tipo_documento: string;
-    numero_documento: string;
-    lugar_expedicion: string;
-    depto_expedicion: string;
-    municipio_expedicion: string;
-    pais_expedicion: string;
-    fecha_expedicion: string;
-    fecha_expiracion: string;
-    estado_familiar: string;
-    reside_en_salvador: string;
-    tipo_trabajador: string;
-    profesion: string;
-    razon_social: string;
-    fecha_inicio_labores: string;
-    nit: string;
-    telefono_empleador: string;
-    depto_empleador: string;
-    municipio_empleador: string;
-    pais_empleador: string;
-    correo_electronico_empleador: string;
-    codigo_agente: string;
-    nombre_agente: string;
-    es_pep: string;
-    familiar_pep: string;
-    actividad_economica: string;
-  }
+  fechaFormulario: string; // Nuevo campo añadido
+  nombreCompleto: string;
+  primerNombre: string;
+  segundoNombre: string;
+  primerApellido: string;
+  segundoApellido: string;
+  apellidoCasada: string;
+  numeroIsss: string; // Antes numero_isss
+  numeroInpep: string; // Nuevo campo añadido
+  telDomicilio: string; // Nuevo campo añadido
+  nacionalidad: string;
+  conocidoPor: string; // Antes conocido_por
+  telCelular: string; // Antes tel_celular
+  correoElectronico: string; // Antes correo_electronico
+  direccion: string;
+  sexo: string;
+  fechaNacimiento: string; // Antes fecha_nacimiento
+  numeroDocumento: string; // Antes numero_documento
+  tipoDocumento: string; // Antes tipo_documento
+  lugarExpedicion: string; // Antes lugar_expedicion
+  deptoExpedicion: string; // Antes depto_expedicion
+  municipioExpedicion: string; // Antes municipio_expedicion
+  paisExpedicion: string; // Antes pais_expedicion
+  fechaExpedicion: string; // Antes fecha_expedicion
+  fechaExpiracion: string; // Antes fecha_expiracion
+  estadoFamiliar: string; // Antes estado_familiar
+  resideEnSalvador: string; // Antes reside_en_salvador
+  referencia: string; // Nuevo campo añadido
+  departamento: string;
+  municipio: string; // Corregido de 'municipo'
+  pais: string;
+  tipoTrabajador: string; // Antes tipo_trabajador
+  primeraRelacionLaboral: string; // Nuevo campo añadido
+  profesion: string;
+  masDeUnEmpleador: string; // Nuevo campo añadido
+  razonSocial: string; // Antes razon_social
+  fechaInicioLabores: string; // Antes fecha_inicio_labores
+  nit: string;
+  telefonoEmpleador: string; // Antes telefono_empleador
+  deptoEmpleador: string; // Antes depto_empleador
+  municipioEmpleador: string; // Antes municipio_empleador
+  paisEmpleador: string; // Antes pais_empleador
+  codigoPostalEmpleador: string; // Nuevo campo añadido
+  direccionEmpleador: string; // Nuevo campo añadido
+  correoElectronicoEmpleador: string; // Antes correo_electronico_empleador
+  codigoAgente: string; // Antes codigo_agente
+  esPep: string;
+  familiarPep: string;
+  procedenciaFondos: string; // Nuevo campo añadido
+  actividadEconomica: string;
+  firmaObservaciones: string; // Nuevo campo añadido
+}

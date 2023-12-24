@@ -11,7 +11,6 @@ const getAgenteDetails = async (codigoAgente: string): Promise<AgenteDetails> =>
     // Encrypt the request data
     const encryptedData = encrypt(codigoAgente);
     const response = await axios.post<{ data: string }>(url, { data: encryptedData });
-    console.log("REPOSNE", response);
     // Assuming the response data is encrypted
     const decryptedData = decrypt(response.data);
     return JSON.parse(decryptedData) as AgenteDetails;

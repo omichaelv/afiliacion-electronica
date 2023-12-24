@@ -1,5 +1,8 @@
 export interface NotificationRequest {
+    tipoNotificacion: string;
     nombre: string;
-    correo_electronico: string;
+    correoElectronico : string;
     telefono: string;
+    departamento:string;
+    municipio:string;
   }

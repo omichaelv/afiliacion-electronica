@@ -2,7 +2,8 @@ const paisService = require('../services/paisService');
 
 const consultaPais = async (req, res) => {
     try {
-        const response = await paisService.consultaPais(req.body);
+        console.log("Entre Pais");
+        const response = await paisService.consultaPais();
         res.json(response);
     } catch (error) {
         console.error("Error in Pais Controller: ", error);

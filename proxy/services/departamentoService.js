@@ -6,20 +6,27 @@ const consultaDepartamento = async (encryptedData) => {
     // Decrypt the request data
     const decryptedRequest = decrypt(encryptedData);
     const requestData = JSON.parse(decryptedRequest);
+    const hostKey = `${process.env.CURRENT_ENV}_HOST`;
+
+    console.log("DEPA SERVICE", decryptedRequest);
 
     // Make the actual API call to the original endpoint
 
     const token = await getToken();
     const baseUrlKey = `${process.env.CURRENT_ENV}_API_BASE_URL`;
     const baseUrl = process.env[baseUrlKey];
-    const url = `${baseUrl}/catalogos/departamentos?codPais=${requestData}`
+    const url = `${baseUrl}/catalogos/departamentos`
     
     try {
         const response = await axios.get(url, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
+            'Host': process.env[hostKey]
           },
+          params: {
+            codPais: requestData.codPais,
+          }
         });
     
         // Encrypt response before sending back

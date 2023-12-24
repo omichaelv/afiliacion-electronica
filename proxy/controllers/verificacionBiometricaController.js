@@ -2,7 +2,7 @@ const verficacionBiometricaService = require('../services/verficacionBiometricaS
 
 const verficacionBiometrica = async (req, res) => {
     try {
-        const response = await verficacionBiometricaService.verficacionBiometrica(req.body);
+        const response = await verficacionBiometricaService.verficacionBiometrica(req.body.data);
         res.json(response);
     } catch (error) {
         console.error("Error in verificacion Biometrica Controller: ", error);

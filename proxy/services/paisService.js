@@ -2,10 +2,9 @@ const axios = require('axios');
 const { encrypt, decrypt } = require('../utils/cryptoUtil');
 const getToken = require('../utils/tokenFetcher');
 
-const consultaPais = async (encryptedData) => {
+const consultaPais = async () => {
     // Decrypt the request data
-    const decryptedRequest = decrypt(encryptedData);
-    const requestData = JSON.parse(decryptedRequest);
+    const hostKey = `${process.env.CURRENT_ENV}_HOST`;
 
     // Make the actual API call to the original endpoint
     const token = await getToken();
@@ -13,17 +12,16 @@ const consultaPais = async (encryptedData) => {
     const baseUrl = process.env[baseUrlKey];
     const url = `${baseUrl}/catalogos/paises`;
 
-    const response = await axios.get();
-
     // Encrypt the response data
     try {
         const response = await axios.get(url, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
+            'Host': process.env[hostKey]
           },
         });
-    
+        console.log(response);
         // Encrypt response before sending back
         const encryptedResponse = encrypt(JSON.stringify(response.data));
         return encryptedResponse;

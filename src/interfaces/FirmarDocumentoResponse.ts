@@ -2,7 +2,7 @@ export interface FirmarDocumentoResponse {
     success: boolean;
     mensaje: string;
     pakageId?: string;
-    cod_cliente?: string;
+    codCliente?: string;
     firmantes?: FirmanteResponse[];
   }
   

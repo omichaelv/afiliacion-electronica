@@ -1,5 +1,6 @@
 export interface AffiliationAcknowledgeRequest {
-    correo_electronico: string;
-    numero_solicitud: string;
+    correoElectronico: string;
+    numeroSolicitud: string;
     nombre: string;
+    fechaFormulario: string;
   }

@@ -12,7 +12,6 @@ const consultaAgente = async (encryptedData) => {
     const token = await getToken();
     const baseUrlKey = `${process.env.CURRENT_ENV}_API_BASE_URL`;
     const baseUrl = process.env[baseUrlKey];
-    console.log("AGENTE URL", baseUrl);
     const url = `${baseUrl}/catalogos/agentes`;
 
     try {
@@ -28,9 +27,7 @@ const consultaAgente = async (encryptedData) => {
         });
     
         // Encrypt response before sending back
-        console.log("RESPONSE", response);
         const encryptedResponse = encrypt(JSON.stringify(response.data));
-        console.log("RESPONSEEE", encryptedResponse);
         return encryptedResponse;
       } catch (error) {
         console.error('Error in consultaAgente: ', error);

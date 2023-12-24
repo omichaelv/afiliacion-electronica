@@ -7,11 +7,9 @@ const getSignatoryDetails = async (): Promise<SignatoryDetails> => {
   const url = `${baseUrl}/consultaFirmante`;
 
   try {
-    // Encrypt an empty object as the data
-    const encryptedData = encrypt(JSON.stringify({}));
 
     // Send the encrypted data
-    const response = await axios.post<{ data: string }>(url, encryptedData);
+    const response = await axios.post<{ data: string }>(url);
 
     // Decrypt the response data
     const decryptedData = decrypt(response.data);

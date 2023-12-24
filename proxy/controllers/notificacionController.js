@@ -2,7 +2,7 @@ const notificacionService = require('../services/notificacionService');
 
 const notificacion = async (req, res) => {
     try {
-        const response = await notificacionService.notificaPEP(req.body);
+        const response = await notificacionService.notificaPEP(req.body.data);
         res.json(response);
     } catch (error) {
         console.error("Error in Notificacion PEP Controller: ", error);
@@ -12,7 +12,7 @@ const notificacion = async (req, res) => {
 
 const acuseAfiliacion = async (req, res) => {
     try {
-        const response = await notificacionService.acuseAfiliacion(req.body);
+        const response = await notificacionService.acuseAfiliacion(req.body.data);
         res.json(response);
     } catch (error) {
         console.error("Error in Notificacion acuse Controller: ", error);
@@ -22,7 +22,7 @@ const acuseAfiliacion = async (req, res) => {
 
 const correoBienvenida = async (req, res) => {
     try {
-        const response = await notificacionService.correoBienvenida(req.body);
+        const response = await notificacionService.correoBienvenida(req.body.data);
         res.json(response);
     } catch (error) {
         console.error("Error in Notificacion acuse Controller: ", error);

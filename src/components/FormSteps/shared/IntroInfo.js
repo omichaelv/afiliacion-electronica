@@ -20,14 +20,22 @@ import id from "../../../resources/id.png";
 function IntroInfo() {
 
     return (
-        <Box>
+        <Box sx={{
+          bgcolor: "#00559c",
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          
+          height:"100%",
+          overflow: "auto",
+        }}>
 <Typography
         variant="body4"
         component="h3"
         gutterBottom
         align="center"
         color={"white"}
-        sx={{ mt: 2 }}
+
       >
         <img src={id} className="id-foto" alt="id" />
       </Typography>
@@ -38,7 +46,7 @@ function IntroInfo() {
         gutterBottom
         align="center"
         color={"white"}
-        sx={{ mt: 2 }}
+        sx={{ mt: 2, fontSize: { md: "25px" ,lg: "35px" } }}
       >
         Identificación Digital
       </Typography>
@@ -55,6 +63,7 @@ function IntroInfo() {
           sx={{
             my: { xs: 1, lg: 2 }, // Vertical margin: 1 on xs (mobile), 2 on md (desktop) and up
             mx: { xs: 1, lg: 2 }, // Horizontal margin: 1 on xs, 3 on md and up
+            fontSize: { md: "18px" ,lg: "20px" } 
           }}
         >
           A través del proceso de identificación digital podrás hacer un
@@ -64,6 +73,9 @@ function IntroInfo() {
           variant="body2"
           align="center"
           color={"white"}
+          sx={{
+            fontSize: { md: "18px" ,lg: "20px" } 
+          }}
           gutterBottom
         >
           Para este proceso requerirás:
@@ -75,7 +87,7 @@ function IntroInfo() {
           justifyContent="center"
           alignItems="center"
           color="white"
-          sx={{ mt: 2, mx: 2 }}
+          sx={{ mt: 2, mx: 2,fontSize: { md: "15px" ,lg: "18px" }  }}
           gutterBottom
         >
           <CreditCardIcon color={"white"} />
@@ -83,7 +95,7 @@ function IntroInfo() {
             variant="body2"
             align="justify"
             color={"white"}
-            sx={{ ml: 1 }}
+            sx={{ ml: 1, fontSize: { md: "15px" ,lg: "18px" }  }}
             gutterBottom
           >
             DUI legible y en buenas condiciones
@@ -94,14 +106,14 @@ function IntroInfo() {
           justifyContent="center"
           alignItems="center"
           color="white"
-          sx={{ mt: 2, mx: 2 }}
+          sx={{ mt: 2, mx: 2,  }}
           gutterBottom
         >
           <LightMode color={"white"} />
           <Typography
             variant="body2"
             align="justify"
-            sx={{ ml: 1 }}
+            sx={{ ml: 1, maxWidth: {xs:"80%", md:"80%", lg:"50%"}, fontSize: { md: "15px" ,lg: "18px" } }}
             color={"white"}
             gutterBottom
           >
@@ -115,7 +127,7 @@ function IntroInfo() {
         variant="body2"
         align="center"
         color={"white"}
-        sx={{ my: 2 }}
+        sx={{ my: 2 , fontSize: { md: "15px" ,lg: "18px" }}}
       >
         Este trámite es personal y debe ser realizado únicamente por el
         titular. Aplica solo para salvadoreños.
@@ -124,7 +136,7 @@ function IntroInfo() {
         variant="body2"
         align="center"
         color={"white"}
-        sx={{ my: 2 }}
+        sx={{ my: 2, mb:4, fontSize: { md: "15px" ,lg: "18px" } }}
       >
         Toma en cuenta: Este servicio podrás realizarlo únicamente a
         través de dispositivos móviles.

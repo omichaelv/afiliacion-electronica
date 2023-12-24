@@ -1,11 +1,11 @@
 
 export interface FirmarDocumentoRequest {
-    id_proceso: string;
+    idProceso : string;
     subject: string;
-    cod_cliente: string;
-    cantidad_firmantes: number;
-    cantidad_documentos: number;
-    fecha_expiracion: string;
+    codCliente : string;
+    cantidadFirmantes: number;
+    cantidadDocumentos: number;
+    fechaExpiracion: string;
     firmantes: Firmante[];
     documentos: Documento[];
   }
@@ -21,8 +21,8 @@ export interface FirmarDocumentoRequest {
   }
   
   export interface Documento {
-    tipo_documento: number;
-    nombre_documento: string;
+    tipoDocumento: number;
+    nombreDocumento: string;
     base64: string;
     firma: Firma[];
   }

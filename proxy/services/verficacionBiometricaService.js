@@ -6,19 +6,22 @@ const verficacionBiometrica = async (encryptedData) => {
     // Decrypt the request data
     const decryptedRequest = decrypt(encryptedData);
     const requestData = JSON.parse(decryptedRequest);
+    const hostKey = `${process.env.CURRENT_ENV}_HOST`;
 
     // Make the actual API call to the original endpoint
     const token = await getToken();
     const baseUrlKey = `${process.env.CURRENT_ENV}_API_BASE_URL`;
     const baseUrl = process.env[baseUrlKey];
-    const url = `${baseUrl}/verficacionBiometrica`;
+    const url = `${baseUrl}/utilitarios/verficacionBiometrica`;
 
     try {
         const response = await axios.post(url, requestData, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
+            'Host': process.env[hostKey]
           },
+          timeout: 20000
         });
     
         // Encrypt response before sending back

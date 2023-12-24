@@ -1,6 +1,6 @@
 export interface Department {
-    cod_departamento: string;
-    nombre_departamento: string;
+    codDepartamento : string;
+    nombreDepartamento : string;
   }
   
   export interface DepartmentsResponse {

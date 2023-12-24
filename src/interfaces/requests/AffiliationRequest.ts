@@ -1,4 +1,6 @@
 export interface AffiliationRequest {
-    fecha_nacimiento: string;
-    num_id: string;
+    fechaNacimiento : string;
+    numId: string;
+    primerNombre: string;
+    primerApellido: string;
   }

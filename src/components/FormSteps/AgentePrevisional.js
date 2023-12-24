@@ -9,17 +9,13 @@ import {
   TextField,
   InputLabel,
   Grid,
-  Snackbar 
+  Snackbar,
 } from "@mui/material";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import LightMode from "@mui/icons-material/LightMode";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import logo from "../../logo.svg";
-import id from "../../resources/id.png";
 import getAgenteDetails from "../../services/AgenteService";
-import IntroInfo from './shared/IntroInfo';
-import HeadphonesIcon from '@mui/icons-material/Headphones';
-
+import IntroInfo from "./shared/IntroInfo";
+import HeadphonesIcon from "@mui/icons-material/Headphones";
 
 function AgentePrevisional({ onNext, onAgenteDetailsFetched }) {
   const [codigoAsesor, setcodigoAsesor] = useState("");
@@ -29,13 +25,13 @@ function AgentePrevisional({ onNext, onAgenteDetailsFetched }) {
   const [open, setOpen] = useState(false);
   const [mensajeNoti, setMensaje] = useState("");
   const handleCloseNoti = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setMensaje("");
     setOpen(false);
   };
-  
+
   //Service
 
   const handleGetAgenteDetails = async () => {
@@ -62,7 +58,7 @@ function AgentePrevisional({ onNext, onAgenteDetailsFetched }) {
   const handleNo = () => {
     onAgenteDetailsFetched(null);
     onNext();
-  }
+  };
   const handleNext = () => {
     onNext();
   };
@@ -73,6 +69,7 @@ function AgentePrevisional({ onNext, onAgenteDetailsFetched }) {
         display: "flex",
         flexDirection: "column",
         width: "100%",
+        height: "100%",
         minHeight: "100vh",
         overflow: "auto",
       }}
@@ -103,10 +100,10 @@ function AgentePrevisional({ onNext, onAgenteDetailsFetched }) {
         open={open}
         autoHideDuration={6000}
         onClose={handleCloseNoti}
-        message = {mensajeNoti}
+        message={mensajeNoti}
         action={
           <Button color="secondary" size="small" onClick={handleCloseNoti}>
-            DISMISS
+            DESCARTAR
           </Button>
         }
       />
@@ -115,9 +112,11 @@ function AgentePrevisional({ onNext, onAgenteDetailsFetched }) {
         <Grid
           container
           spacing={0}
-          sx={{
-             // Horizontal margin: 1 on xs, 3 on md and up
-          }}
+          sx={
+            {
+              // Horizontal margin: 1 on xs, 3 on md and up
+            }
+          }
         >
           <Grid
             item
@@ -126,134 +125,145 @@ function AgentePrevisional({ onNext, onAgenteDetailsFetched }) {
             lg={4}
             sx={{ bgcolor: { md: "#00559c", lg: "#00559c" } }}
           >
-            <IntroInfo  />
+            <IntroInfo />
           </Grid>
-          <Grid item xs={12} md={12} lg={8} sx={{ bgcolor: { lg: "white" }, mb:{xs:5, lg:0} }}>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={8}
+            sx={{ bgcolor: { lg: "white" }, mb: { xs: 5, lg: 0 } }}
+          >
             {" "}
             {/* 100% on mobile, 25% on desktop */}
-            <Box sx={{
-               textAlign: {xs:"center", md:"center", lg: "left"},
-            }}>
-              <HeadphonesIcon color={"black"} sx={{
-              fontSize: { lg: "200px" },
-              alignText: { lg: "center" },
-              display: { xs: 'none', md: 'none', lg: "block" }
-            }} />
-            <Typography
-              variant="body2"
-              
-              sx={{ 
-                my: 2, 
-                color: {xs: "white", md:"white", lg: "black"},
-                fontSize: {lg:"35px"},
-                fontWeight: {lg:'bold'},
-                ml: {lg:2}
-              
+            <Box
+              sx={{
+                textAlign: { xs: "center", md: "center", lg: "left" },
               }}
             >
-              ¿Estás siendo atendido por un agente previsional?
-            </Typography>
-            {usarCodigoAsesor !== "Si" && (
-              <Box sx={{
-                textAlign: {xs:"center", md:"center", lg: "left"},
-                ml: {lg:13}
-             }}>
-                <Button
-                  variant="contained"
-                  onClick={() => setusarCodigoAsesor("Si")}
-                  sx={{ 
-                    mr: 1, 
-                    fontSize: {lg:"30px"},
-                    width: {sx:"80px", md:"80px", lg:"100px"},  
-                    height: {sx:"40px", md:"40px", lg:"50px"}   
+              <HeadphonesIcon
+                color={"black"}
+                sx={{
+                  fontSize: { lg: "200px" },
+                  alignText: { lg: "center" },
+                  display: { xs: "none", md: "none", lg: "block" },
+                }}
+              />
+              <Typography
+                variant="body2"
+                sx={{
+                  color: { xs: "white", md: "white", lg: "black" },
+                  fontSize: { lg: "35px" },
+                  fontWeight: { lg: "bold" },
+                  ml: { lg: 2 },
+                  mb: 1
+                }}
+              >
+                ¿Estás siendo atendido por un agente previsional?
+              </Typography>
+              {usarCodigoAsesor !== "Si" && (
+                <Box
+                  sx={{
+                    textAlign: { xs: "center", md: "center", lg: "left" },
+                    ml: { lg: 13 },
                   }}
                 >
-                  Sí
-                </Button>
-                <Button variant="contained" onClick={handleNo} sx={{ 
-                    fontSize: {lg:"30px"},
-                    width: {sx:"80px", md:"80px", lg:"100px"},  
-                    height: {sx:"40px", md:"40px", lg:"50px"}   
-                  }}>
-                  No
-                </Button>
-              </Box>
-            )}
-            {usarCodigoAsesor === "Si" && (
-          <Box >
-            
-            <Typography
-              variant="body2"
-              
-              color={"white"}
-              sx={{ 
-                my: 2, 
-                color: {xs: "white", md:"white", lg: "black"},
-                fontSize: {lg:"35px"},
-                fontWeight: {lg:'bold'},
-                ml: {lg:2}
-                 }}
-            >
-              Pídele al asesor que ingrese su código
-            </Typography>
-            <FormGroup>
-              <InputLabel
-                
-                sx={{ ml: 2,
-                  fontSize: {lg:"25px"},
-                  color: {xs: "white", md:"white", lg: "black"},
-                  alignText: {xs: "left", md:"left", lg:"left"}
-                }}
-                htmlFor="codigoAsesor"
-              >
-                Código de Asesor
-              </InputLabel>
-              <TextField
-                required
-                style={{ backgroundColor: "white" }}
-                sx={{ 
-                  margin: 1, 
-                  mx: 2,
-                  width: { lg:"500px"},  
-                  height: { lg:"40px"} 
-                }}
-                margin="normal"
-                id="codigoAsesor"
-                placeholder="Ej. 107885445"
-                value={codigoAsesor}
-                onChange={(e) => setcodigoAsesor(e.target.value)}
-              />
-            </FormGroup>
-            <Box sx={{ 
-              mx: 2 ,
-              align:"left",
-              alignText: {sx:"center", md:"center", lg:"left"}
-              }}>
-              <Button
-                fullWidth
-                variant="contained"
-                onClick={handleGetAgenteDetails}
-                sx={{ 
-                  mt: 3,
-                  width: { lg:"500px"},  
-                  height: { lg:"40px"},
-                  fontSize: {lg:"20px"},
-                  fontWeight: {lg:'bold'}
-                  
-              }}
-              >
-                Continuar
-              </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => setusarCodigoAsesor("Si")}
+                    sx={{
+                      mr: 1,
+                      fontSize: { lg: "30px" },
+                      width: { sx: "80px", md: "80px", lg: "100px" },
+                      height: { sx: "40px", md: "40px", lg: "50px" },
+                    }}
+                  >
+                    Sí
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={handleNo}
+                    sx={{
+                      fontSize: { lg: "30px" },
+                      width: { sx: "80px", md: "80px", lg: "100px" },
+                      height: { sx: "40px", md: "40px", lg: "50px" },
+                    }}
+                  >
+                    No
+                  </Button>
+                </Box>
+              )}
+              {usarCodigoAsesor === "Si" && (
+                <Box>
+                  <Typography
+                    variant="body2"
+                    color={"white"}
+                    sx={{
+                      mt: 2,
+                      color: { xs: "white", md: "white", lg: "black" },
+                      fontSize: { lg: "35px" },
+                      fontWeight: { lg: "bold" },
+                      ml: { lg: 2 },
+                    }}
+                  >
+                    Pídele al asesor que ingrese su código
+                  </Typography>
+                  <FormGroup>
+                    <InputLabel
+                      sx={{
+                        ml: 2,
+                        fontSize: { lg: "25px" },
+                        color: { xs: "white", md: "white", lg: "black" },
+                        alignText: { xs: "left", md: "left", lg: "left" },
+                        mt: 1,
+                      }}
+                      htmlFor="codigoAsesor"
+                    >
+                      Código de Asesor
+                    </InputLabel>
+                    <TextField
+                      required
+                      style={{ backgroundColor: "white" }}
+                      sx={{
+                        margin: 1,
+                        mx: 2,
+                        width: { lg: "500px" },
+                        height: { lg: "40px" },
+                      }}
+                      margin="normal"
+                      id="codigoAsesor"
+                      placeholder="Ej. 107885445"
+                      value={codigoAsesor}
+                      onChange={(e) => setcodigoAsesor(e.target.value)}
+                    />
+                  </FormGroup>
+                  <Box
+                    sx={{
+                      mx: 2,
+                      align: "left",
+                      alignText: { sx: "center", md: "center", lg: "left" },
+                    }}
+                  >
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      onClick={handleGetAgenteDetails}
+                      sx={{
+                        mt: 3,
+                        width: { lg: "500px" },
+                        height: { lg: "40px" },
+                        fontSize: { lg: "20px" },
+                        fontWeight: { lg: "bold" },
+                      }}
+                    >
+                      Continuar
+                    </Button>
+                  </Box>
+                </Box>
+              )}
             </Box>
-            
-          </Box>
-        )}
-            </Box>
-            
           </Grid>
         </Grid>
-
-        
       </Box>
     </Box>
   );

@@ -1,6 +1,6 @@
 export interface Municipality {
-    cod_municipio: string;
-    nombre_municipio: string;
+    codMunicipio : string;
+    nombreMunicipio : string;
   }
   
   export interface MunicipalitiesResponse {
