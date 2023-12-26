@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -9,33 +9,73 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  TextField
+  TextField,
+  Autocomplete
 } from "@mui/material";
 import logo from '../../logo.svg'
+import fetchCountries from "../../services/PaisesService";
+import fetchDepartments from "../../services/DepartamentoService";
+import fetchMunicipalities from "../../services/MunicipiosService";
 
 
-function InfoContacto({ onNext }) {
+function InfoContacto({ onNext, onDataContacto }) {
 
   const [direccion, setDireccion] = useState("");
-  const [departamento, setDepartamento] = useState("");
-  const [municipio, setMunicipio] = useState("");
-  const [pais, setPais] = useState("");
   const [celular, setCelular] = useState("");
   const [correo, setCorreo] = useState("");
   
+  
 
-  const handleDepartamentoChange = (event) => {
-    setDepartamento(event.target.value);
-  };
-  const handleMunicipioChange = (event) => {
-    setMunicipio(event.target.value);
-  };
-  const handlePaisChange = (event) => {
-    setPais(event.target.value);
-  };
   const handleNext = () => {
     onNext();
   };
+
+  //Servicios
+
+  //DropDowns
+
+  const [countries, setCountries] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [municipalities, setMunicipalities] = useState([]);
+
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [selectedMunicipality, setSelectedMunicipality] = useState(null);
+
+  // Fetch countries on component mount
+  useEffect(() => {
+    fetchCountries()
+      .then((response) => setCountries(response.paises))
+      .catch((error) => console.error("Failed to fetch countries:", error));
+  }, []);
+
+  // Fetch departments when a country is selected
+  useEffect(() => {
+    if (selectedCountry) {
+      fetchDepartments(selectedCountry.codPais)
+        .then((response) => setDepartments(response.departamentos))
+        .catch((error) => console.error("Failed to fetch departments:", error));
+
+      // Reset departments and municipalities when country changes
+      setSelectedDepartment(null);
+      setMunicipalities([]);
+      setSelectedMunicipality(null);
+    }
+  }, [selectedCountry]);
+
+  // Fetch municipalities when a department is selected
+  useEffect(() => {
+    if (selectedCountry && selectedDepartment) {
+      fetchMunicipalities(
+        selectedCountry.codPais,
+        selectedDepartment.codDepartamento
+      )
+        .then((response) => setMunicipalities(response.municipios))
+        .catch((error) =>
+          console.error("Failed to fetch municipalities:", error)
+        );
+    }
+  }, [selectedCountry, selectedDepartment]);
 
   return (
     <Box
@@ -78,27 +118,56 @@ function InfoContacto({ onNext }) {
 
         <Box sx={{m:1}} >
         <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Dirección" multiline rows={2} value={direccion} onChange={(e) => setDireccion(e.target.value)} />
-        <FormControl fullWidth margin="normal">
-                        <InputLabel htmlFor="Departamento">Departamento</InputLabel>
-                        <Select required id="Departamento" label="Departamento" style={{ backgroundColor: 'white' }} value={departamento} onChange={handleDepartamentoChange}>
-                            <MenuItem value="x">Datos</MenuItem>
-                            <MenuItem value="xx">Datos</MenuItem>
-                        </Select>
-         </FormControl>
-         <FormControl fullWidth margin="normal">
-                        <InputLabel htmlFor="Municipio">Municipio</InputLabel>
-                        <Select required id="Municipio" label="Municipio" style={{ backgroundColor: 'white' }} value={municipio} onChange={handleMunicipioChange}>
-                            <MenuItem value="x">Datos</MenuItem>
-                            <MenuItem value="xx">Datos</MenuItem>
-                        </Select>
-         </FormControl>
-         <FormControl fullWidth margin="normal">
-                        <InputLabel htmlFor="Municipio">Pais de Residencia</InputLabel>
-                        <Select required id="Municipio" label="Municipio" style={{ backgroundColor: 'white' }} value={pais} onChange={handlePaisChange}>
-                            <MenuItem value="x">Datos</MenuItem>
-                            <MenuItem value="xx">Datos</MenuItem>
-                        </Select>
-         </FormControl>
+        
+        <Box sx={{ minWidth: 120 }}>
+                  {/* Country Autocomplete */}
+                  <Autocomplete
+                    id="country-select"
+                    options={countries}
+                    getOptionLabel={(option) => option.nombre || ""}
+                    value={selectedCountry}
+                    onChange={(event, newValue) => {
+                      setSelectedCountry(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="País" />
+                    )}
+                    sx={{ mt: 2 }}
+                  />
+
+                  {/* Department Autocomplete */}
+                  <Autocomplete
+                    id="department-select"
+                    options={departments}
+                    getOptionLabel={(option) => option.nombreDepartamento || ""}
+                    value={selectedDepartment}
+                    onChange={(event, newValue) => {
+                      setSelectedDepartment(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Departamento" />
+                    )}
+                    disabled={!selectedCountry}
+                    sx={{ mt: 2 }}
+                  />
+
+                  {/* Municipality Autocomplete */}
+                  <Autocomplete
+                    id="municipality-select"
+                    options={municipalities}
+                    getOptionLabel={(option) => option.nombreMunicipio || ""}
+                    value={selectedMunicipality}
+                    onChange={(event, newValue) => {
+                      setSelectedMunicipality(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Municipio" />
+                    )}
+                    disabled={!selectedDepartment}
+                    sx={{ mt: 2 }}
+                  />
+                </Box>
+        
          <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Celular" value={celular} onChange={(e) => setCelular(e.target.value)} />
          <TextField required type="email" style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Correo" value={correo} onChange={(e) => setCorreo(e.target.value)} />
          

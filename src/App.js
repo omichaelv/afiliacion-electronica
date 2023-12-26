@@ -17,6 +17,7 @@ const App = () => {
   const [pepsDetails, setpepsDetails] = useState(null); 
   const [scanIdDetails, setScanIdDetails] = useState(null); 
   const [biometricResults, setBiometricResults] = useState(null);
+  const [dataContacto, setDataContacto] = useState(null);
 
   //Function to Save Data From Steps
   const handleAgenteDetails = (details) => {
@@ -75,7 +76,7 @@ const App = () => {
       {currentStep === 4 && (<SelfieMensaje onNext={irSelfieCaptura}  />)}
       {currentStep === 5 && (<SelfieCaptura onNext={irDatosResumen} onSelfi={setBiometricResults} documentoData={scanIdDetails}/>)}
       {currentStep === 6 && (<InfoDUI onNext={irDatosContacto} />)}
-      {currentStep === 7 && (<InfoContacto onNext={irInfoLaboral} />)}
+      {currentStep === 7 && (<InfoContacto onNext={irInfoLaboral} onDataContacto={setDataContacto} />)}
       {currentStep === 8 && (<InfoLaboral onNext={irInfoLaboral} />)}
       
     </div>

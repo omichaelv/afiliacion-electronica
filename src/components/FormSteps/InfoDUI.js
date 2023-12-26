@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import logo from '../../logo.svg'
 
-function InfoDUI({ onNext }) {
+function InfoDUI({ onNext, infoBiometrica }) {
 
   const handleNext = () => {
     
@@ -68,7 +68,7 @@ function InfoDUI({ onNext }) {
                 align="center"
                 sx={{ mt: 1, fontWeight: 'bold' }}
             >
-                04005672-3
+                {infoBiometrica.data.dui}
             </Typography>
         </Box>
 
@@ -87,7 +87,7 @@ function InfoDUI({ onNext }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                Julio Roberto
+                {infoBiometrica.data.nom1} {infoBiometrica.data.nom2}
             </Typography>
         </Box>
 
@@ -106,7 +106,7 @@ function InfoDUI({ onNext }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                Lopez
+                {infoBiometrica.data.ape1} {infoBiometrica.data.ape2}
             </Typography>
         </Box>
 
@@ -125,7 +125,7 @@ function InfoDUI({ onNext }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                M
+                {infoBiometrica.data.sexo}
             </Typography>
         </Box>
 
@@ -144,7 +144,7 @@ function InfoDUI({ onNext }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                Soltero
+                {infoBiometrica.data.estaFami}
             </Typography>
         </Box>
 
@@ -163,7 +163,7 @@ function InfoDUI({ onNext }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                Empleado
+                {infoBiometrica.data.estaFami}
             </Typography>
         </Box>
 
@@ -182,7 +182,7 @@ function InfoDUI({ onNext }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                09/09/2023
+                {infoBiometrica.data.fechNaci}
             </Typography>
         </Box>
         
@@ -201,7 +201,7 @@ function InfoDUI({ onNext }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                09/09/2023
+                {infoBiometrica.data.fechExpe}
             </Typography>
         </Box>
 
@@ -220,7 +220,7 @@ function InfoDUI({ onNext }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                09/09/2023
+                {infoBiometrica.data.fechVenc}
             </Typography>
         </Box>
        

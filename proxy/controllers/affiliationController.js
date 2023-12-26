@@ -2,7 +2,7 @@ const affiliationService = require('../services/affiliationService');
 
 const validateAffiliation = async (req, res) => {
     try {
-        const response = await affiliationService.validarAfiliacion(req.body);
+        const response = await affiliationService.validarAfiliacion(req.body.data);
         res.json(response);
     } catch (error) {
         console.error("Error in Affiliation Controller: ", error);

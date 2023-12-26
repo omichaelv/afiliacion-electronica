@@ -185,8 +185,7 @@ function SelfieCaptura({ onNext, onSelfi, documentoData }) {
         numId:  documentoData.extractionData.documentId,
         tipoConsulta: "A",
       };
-      const verifyData = await verifyBiometricData(request);
-      console.log(verifyData);
+      /*const verifyData = await verifyBiometricData(request);
       if (verifyData.success) {
         onSelfi(verifyData);
         handleNext();
@@ -194,7 +193,8 @@ function SelfieCaptura({ onNext, onSelfi, documentoData }) {
         // handle error, show message, etc.
         setModalTexto(verifyData.mensaje);
         handleModalOpen(true);
-      }
+      }*/
+      handleNext();
     } catch (error) {
       
       console.error("Error comunicandose con el servidor: ", error);
