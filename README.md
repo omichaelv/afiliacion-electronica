@@ -1,3 +1,18 @@
+# Pasos de Instalacion
+
+Aplicacion Cliente:
+ - npm install
+ - npm install @mui/icons-material
+ - npm install Selfi/facephi-selphid-widget-web-4.18.0.tgz
+ - npm install Selfi/facephi-selphi-widget-web-5.32.0.tgz
+Aplicacion Proxy:
+Ir a carpeta Proxy, en vscode o consola:
+ - npm install
+ - node index.js  
+	 - En index.js se puede detallar el puerto en el que la aplicacion proxy se inicia.
+
+Para ambos el aplicativo cliente y el proxy se incluyen archivos ".env" donde se configura las diferentes variables y propiedades que necesita cada aplicativo.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
