@@ -79,17 +79,15 @@ function SelfieCaptura({ onNext, onSelfi, documentoData }) {
   // Widget event handlers
   function onModuleLoaded(eventData) {
     console.warn("[Selphi] onModuleLoaded");
-    console.log(eventData);
+
   }
 
   function onStabilizing(stabilizingResult) {
     console.warn("[Selphi] onStabilizing");
-    console.log(stabilizingResult);
   }
 
   function onExtractionFinish(extractionResult) {
     console.warn("[Selphi] onExtractionFinish");
-    console.log(extractionResult.detail);
 
     if (extractionResult.detail.bestImage) {
       // Generate template raw from bestImage with generateTemplateRawFromByteArray method
@@ -97,7 +95,6 @@ function SelfieCaptura({ onNext, onSelfi, documentoData }) {
         "../../../assets/selphi",
         extractionResult.detail.bestImage,
         (result) => {
-          console.log("BestImage Template Raw: ", result);
           settemplateResult(result);
         }
       );
@@ -118,14 +115,12 @@ function SelfieCaptura({ onNext, onSelfi, documentoData }) {
 
   function onExceptionCaptured(exceptionResult) {
     console.warn("[Selphi] onExceptionCaptured");
-    console.log(exceptionResult.detail);
 
     setIsWidgetCaptureStarted(false);
   }
 
   function onExtractionTimeout(extractionTimeoutResult) {
     console.warn("[Selphi] onExtractionTimeout");
-    console.log(extractionTimeoutResult);
   }
 
   function onTimeoutErrorButtonClick() {
@@ -141,7 +136,6 @@ function SelfieCaptura({ onNext, onSelfi, documentoData }) {
     console.warn(
       `[Selphi] onTrackStatus (Code: ${trackStatusCode[1]} - ${trackStatusCode[0]}, Timestamp: ${eventData.detail.timeStamp}`
     );
-    console.log(eventData);
   }
 
   // Methods

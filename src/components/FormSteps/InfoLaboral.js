@@ -54,16 +54,15 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
   const handleConoceInfoEmpleador = async (value) => {
 
     await setConoceInfoEmpleador(value);
-    console.log(tipoTrabajador);
-    console.log(conoceInfoEmpleador);
+
     if(tipoTrabajador === "Dependiente" && value === "Si"){
-      console.log(tipoTrabajador)
+
       fetchCountries()
       .then((response) => setCountries(response.paises))
       .catch((error) => {
         setMensaje("Problemas con el servidor consultando la información");
         setOpen(true);
-        console.error("Failed to fetch countries:", error)});
+        });
     }
   };
 

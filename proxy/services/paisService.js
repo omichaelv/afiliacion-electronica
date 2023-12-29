@@ -21,7 +21,6 @@ const consultaPais = async () => {
             'Host': process.env[hostKey]
           },
         });
-        console.log(response);
         // Encrypt response before sending back
         const encryptedResponse = encrypt(JSON.stringify(response.data));
         return encryptedResponse;

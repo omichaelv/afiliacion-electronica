@@ -21,7 +21,7 @@ import { FPhi } from "@facephi/selphid-widget-web";
 import IntroInfo from "./shared/IntroInfo";
 
 function DocumentoScan({ onNext, onScanId }) {
-  const [codigoDocumento, setCodigoDocumento] = useState("");
+  const [documento, setDocumento] = useState("");
 
   const [aceptoTerminos, setAceptoTerminos] = useState("");
   const [tipoCaptura, settipoCaptura] = useState("");
@@ -42,8 +42,7 @@ function DocumentoScan({ onNext, onScanId }) {
   }
 
   const handleNext = () => {
-    // Pass the state to the parent component or handle the transition
-    onScanId(codigoDocumento);
+    onScanId(documento);
     onNext();
   };
 
@@ -88,11 +87,9 @@ function DocumentoScan({ onNext, onScanId }) {
 
   if (!widgetLicenseKey) {
     const licenseKey = process.env.REACT_APP_LICENCE_KEY;
-    console.log(licenseKey);
     setWidgetLicenseKey(licenseKey);
 
     // Load widget resources before it starts (Need server headers to be configured)
-    console.log(process.env.PUBLIC_URL);
     FPhi.SelphID.generateBrowserCache(
       `../../../assets/selphid`,
       process.env.REACT_APP_LICENCE_KEY
@@ -136,11 +133,10 @@ function DocumentoScan({ onNext, onScanId }) {
 
   const onExtractionFinished = (extractionResult) => {
     console.warn("[SelphID] onExtractionFinished");
-    console.log(extractionResult);
 
     setIsWidgetCaptureStarted(false);
     setcapturarData(true);
-    setCodigoDocumento(extractionResult.detail);
+    setDocumento(extractionResult.detail);
     setImagesFrontal(extractionResult.detail.images.frontDocument);
     setImagesReversa(extractionResult.detail.images.backDocument);
     setimageFace(extractionResult.detail.images.faceImage);
@@ -155,7 +151,6 @@ function DocumentoScan({ onNext, onScanId }) {
 
   const onExceptionCaptured = (exceptionResult) => {
     console.warn("[SelphID] onExceptionCaptured");
-    console.log(exceptionResult.detail);
 
     setIsWidgetCaptureStarted(false);
     setWidgetStartSimpleMode(false);
@@ -176,7 +171,6 @@ function DocumentoScan({ onNext, onScanId }) {
     console.warn(
       `[SelphID] onTrackStatus (Code: ${trackStatusCode[1]} - ${trackStatusCode[0]}, Timestamp: ${eventData.detail.timeStamp}`
     );
-    console.log(eventData);
   };
 
   // Methods

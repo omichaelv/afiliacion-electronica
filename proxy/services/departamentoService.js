@@ -8,8 +8,6 @@ const consultaDepartamento = async (encryptedData) => {
     const requestData = JSON.parse(decryptedRequest);
     const hostKey = `${process.env.CURRENT_ENV}_HOST`;
 
-    console.log("DEPA SERVICE", decryptedRequest);
-
     // Make the actual API call to the original endpoint
 
     const token = await getToken();

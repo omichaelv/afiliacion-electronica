@@ -10,9 +10,7 @@ const hostKey = `${process.env.CURRENT_ENV}_HOST_TOKEN`;
 
 
 const getToken = async () => {
-  console.log("Getting TOken");
   const url = process.env[urlKey];
-  console.log("URLSTRING", url);
   const data = new URLSearchParams();
 
   /*const data = qs.stringify({

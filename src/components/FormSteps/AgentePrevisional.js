@@ -36,7 +36,6 @@ function AgentePrevisional({ onNext, onAgenteDetailsFetched }) {
 
   const handleGetAgenteDetails = async () => {
     try {
-      console.log(codigoAsesor);
       const agenteDetails = await getAgenteDetails(codigoAsesor);
       if (agenteDetails.success) {
         onAgenteDetailsFetched(agenteDetails);

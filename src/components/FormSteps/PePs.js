@@ -131,7 +131,6 @@ function Peps({ onNext, onPeps }) {
         municipio: selectedMunicipality,
       };
       const pepsEnvio = await sendNotification(request);
-      console.log(pepsEnvio);
       if (pepsEnvio.success) {
         onPeps(pepsEnvio);
         setdatosPepsObtenidos("Si");
@@ -192,7 +191,7 @@ function Peps({ onNext, onPeps }) {
         );
     }
   }, [selectedCountry, selectedDepartment]);
-  
+
   //Notification
   const [open, setOpen] = useState(false);
   const [mensajeNoti, setMensaje] = useState("");

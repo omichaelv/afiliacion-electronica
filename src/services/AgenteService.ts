@@ -4,7 +4,6 @@ import { encrypt, decrypt } from '../../src/util/cryptoUtil';
 
 const getAgenteDetails = async (codigoAgente: string): Promise<AgenteDetails> => {
   const baseUrl = process.env.REACT_APP_API_BASE_URL;
-  console.log("Base URL:", process.env.REACT_APP_API_BASE_URL);
   const url = `${baseUrl}/consultaAgente`;
 
   try {
