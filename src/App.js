@@ -8,6 +8,8 @@ import SelfieCaptura from './components/FormSteps/SelfieCaptura';
 import InfoDUI from './components/FormSteps/InfoDUI';
 import InfoContacto from './components/FormSteps/InfoContacto';
 import InfoLaboral from './components/FormSteps/InfoLaboral';
+import VerificarCorreo from './components/FormSteps/verificacionCorreo';
+import VerificarTelefono from './components/FormSteps/verificarTelefono';
 
 const App = () => {
   
@@ -26,7 +28,7 @@ const App = () => {
   };
 
   //Steps States
-  const [currentStep, setCurrentStep] = useState(3);
+  const [currentStep, setCurrentStep] = useState(10);
 
   //Step Functions
 
@@ -87,7 +89,9 @@ const App = () => {
       {currentStep === 5 && (<SelfieCaptura onNext={irDatosResumen} onSelfi={setBiometricResults} documentoData={scanIdDetails}/>)}
       {currentStep === 6 && (<InfoDUI onNext={irDatosContacto} infoBiometrica={biometricResults} />)}
       {currentStep === 7 && (<InfoContacto onNext={irInfoLaboral} onDataContacto={setDataContacto} />)}
-      {currentStep === 8 && (<InfoLaboral onNext={irInfoLaboral} onDataEmpleador={setDataEmpleador} />)}
+      {currentStep === 8 && (<InfoLaboral onNext={irCorreoConfirmacion} onDataEmpleador={setDataEmpleador} />)}
+      {currentStep === 9 && (<VerificarCorreo onNext={irMensajeConfirmacion} infoContacto={dataContacto} documentoData={biometricResults} />)}
+      {currentStep === 10 && (<VerificarTelefono onNext={irMensajeConfirmacion} infoContacto={dataContacto} documentoData={biometricResults} />)}
       
     </div>
   );

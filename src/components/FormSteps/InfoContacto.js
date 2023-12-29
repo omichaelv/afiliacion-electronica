@@ -35,7 +35,7 @@ function InfoContacto({ onNext, onDataContacto }) {
       municipio: selectedMunicipality || "",
       direccion: direccion,
       celular: celular,
-      corre: correo
+      correo: correo
     }
     onDataContacto(dataContacto);
     onNext();

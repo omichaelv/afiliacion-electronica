@@ -20,6 +20,7 @@ import logo from "../../logo.svg";
 import { FPhi } from "@facephi/selphid-widget-web";
 import IntroInfo from "./shared/IntroInfo";
 
+
 function DocumentoScan({ onNext, onScanId }) {
   const [documento, setDocumento] = useState("");
 
@@ -45,6 +46,10 @@ function DocumentoScan({ onNext, onScanId }) {
     onScanId(documento);
     onNext();
   };
+
+   //Service
+
+ 
 
   //Notification
   const [open, setOpen] = useState(false);
@@ -72,14 +77,9 @@ function DocumentoScan({ onNext, onScanId }) {
   const [widgetForceLandscape, setWidgetForceLandscape] = useState(false);
   const [widgetInitialTip, setWidgetInitialTip] = useState(false);
   const [widgetDebugMode, setWidgetDebugMode] = useState(false);
-  const [widgetCameraResolution, setWidgetCameraResolution] =
-    useState("res720p");
-  const [widgetCameraWidth, setWidgetCameraWidth] = useState(
-    FPhiCameraResolutions.res720p.width
-  );
-  const [widgetCameraHeight, setWidgetCameraHeight] = useState(
-    FPhiCameraResolutions.res720p.height
-  );
+  const [widgetCameraResolution, setWidgetCameraResolution] = useState("res720p");
+  const [widgetCameraWidth, setWidgetCameraWidth] = useState(FPhiCameraResolutions.res720p.width);
+  const [widgetCameraHeight, setWidgetCameraHeight] = useState(FPhiCameraResolutions.res720p.height);
   const [widgetVideoRecord, setWidgetVideoRecord] = useState(false);
   const [widgetShowLog, setWidgetShowLog] = useState(false);
   const [widgetStartSimpleMode, setWidgetStartSimpleMode] = useState(false);
@@ -133,6 +133,7 @@ function DocumentoScan({ onNext, onScanId }) {
 
   const onExtractionFinished = (extractionResult) => {
     console.warn("[SelphID] onExtractionFinished");
+    console.log(extractionResult);
 
     setIsWidgetCaptureStarted(false);
     setcapturarData(true);

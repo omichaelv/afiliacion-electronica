@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { WelcomeEmailRequest } from '../interfaces/requests/WelcomeEmailRequest';
-import { WelcomeEmailResponse } from '../interfaces/WelcomeEmailResponse';
-import { encrypt, decrypt } from '../../src/util/cryptoUtil';
+import { CodigoRequest } from '../interfaces/requests/CodigoRequest';
+import { CodigoResponse } from '../interfaces/CodigoResponse';
+import { encrypt, decrypt } from '../util/cryptoUtil';
 
-const sendWelcomeEmail = async (data: WelcomeEmailRequest): Promise<WelcomeEmailResponse> => {
+const sendCode = async (data: CodigoRequest): Promise<CodigoResponse> => {
   const baseUrl = process.env.REACT_APP_API_BASE_URL;
-  const url = `${baseUrl}/correoBienvenida`;
+  const url = `${baseUrl}/correoEnviarCodigo`;
 
   try {
     // Encrypt the data
@@ -16,18 +16,18 @@ const sendWelcomeEmail = async (data: WelcomeEmailRequest): Promise<WelcomeEmail
 
     // Decrypt the response data
     const decryptedData = decrypt(response.data);
-    return JSON.parse(decryptedData) as WelcomeEmailResponse;
+    return JSON.parse(decryptedData) as CodigoResponse;
   } catch (error) {
-    console.error("Error in sending welcome email: ", error);
+    
 
     if (axios.isAxiosError(error) && error.response) {
       // Assuming the error response data is encrypted
       const decryptedData = decrypt(error.response.data);
-      return JSON.parse(decryptedData) as WelcomeEmailResponse;
+      return JSON.parse(decryptedData) as CodigoResponse;
     }
 
     throw error;
   }
 };
 
-export default sendWelcomeEmail;
+export default sendCode;

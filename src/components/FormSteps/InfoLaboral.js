@@ -84,9 +84,12 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
     onDataEmpleador(dataEmpleadorDependiente);
     handleNext();
   };
+
   const handleNext = () => {
     onNext();
   };
+
+  //Service
 
   //DropDowns
 

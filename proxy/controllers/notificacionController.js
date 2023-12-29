@@ -20,9 +20,19 @@ const acuseAfiliacion = async (req, res) => {
     }
 };
 
-const correoBienvenida = async (req, res) => {
+const correoEnviar = async (req, res) => {
     try {
-        const response = await notificacionService.correoBienvenida(req.body.data);
+        const response = await notificacionService.correoEnviar(req.body.data);
+        res.json(response);
+    } catch (error) {
+        console.error("Error in Notificacion acuse Controller: ", error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+const correoVerificar = async (req, res) => {
+    try {
+        const response = await notificacionService.correoVerificar(req.body.data);
         res.json(response);
     } catch (error) {
         console.error("Error in Notificacion acuse Controller: ", error);
@@ -35,5 +45,6 @@ const correoBienvenida = async (req, res) => {
 module.exports = {
     notificacion,
     acuseAfiliacion,
-    correoBienvenida
+    correoEnviar,
+    correoVerificar
 };

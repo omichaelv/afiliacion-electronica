@@ -11,6 +11,7 @@ import logo from "../../logo.svg";
 import { FPhi, WidgetComponent } from "@facephi/selphi-widget-web";
 import SelfieInstrucciones from "./shared/SelfieInstrucciones";
 import verifyBiometricData from "../../services/BiometricVerificationService";
+import validateAffiliation from "../../services/AffiliationService";
 
 function SelfieCaptura({ onNext, onSelfi, documentoData }) {
 
@@ -170,25 +171,42 @@ function SelfieCaptura({ onNext, onSelfi, documentoData }) {
   }
 
   //Services
+
+
   const handleEnviarTokens = async () => {
     try {
+
       const request = {
-        token1: templateResult,
-        token2: documentoData.images.backDocument,
-        token3: documentoData.images.frontDocument,
-        numId:  documentoData.extractionData.documentId,
-        tipoConsulta: "A",
+        fechaNacimiento:" documento.data.",
+        numId: "",
+        primerNombre: "",
+        primerApellido: ""
       };
-      /*const verifyData = await verifyBiometricData(request);
-      if (verifyData.success) {
-        onSelfi(verifyData);
-        handleNext();
+      const validacionDetails = await validateAffiliation(request);
+      if (validacionDetails.success) {
+        const requestBio = {
+          token1: templateResult,
+          token2: documentoData.images.backDocument,
+          token3: documentoData.images.frontDocument,
+          numId:  documentoData.extractionData.documentId,
+          tipoConsulta: "A",
+        };
+        const verifyData = await verifyBiometricData(requestBio);
+        if (verifyData.success) {
+          onSelfi(verifyData);
+          handleNext();
+        } else {
+          // handle error, show message, etc.
+          setModalTexto(verifyData.mensaje);
+          handleModalOpen(true);
+        }
+
       } else {
         // handle error, show message, etc.
-        setModalTexto(verifyData.mensaje);
+        setModalTexto(validacionDetails.mensaje);
         handleModalOpen(true);
-      }*/
-      handleNext();
+      }
+
     } catch (error) {
       
       console.error("Error comunicandose con el servidor: ", error);
