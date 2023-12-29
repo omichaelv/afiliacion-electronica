@@ -30,9 +30,10 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
   
   const [tipoTrabajador, settipoTrabajador] = useState("");
   const [conoceInfoEmpleador, setConoceInfoEmpleador] = useState("No");
+  const [procedenciaFondos, setProcedenciaFondos] = useState("N");
   const [confirmacion, setConfirmacion] = useState("");
   const [isss, setISSS] = useState("");
-  const [actividadEconomica, setActividadEconomica] = useState("");
+  const [actividadEconomica, setActividadEconomica] = useState("S");
   
   const [celular, setCelular] = useState("");
   const [correo, setCorreo] = useState("");
@@ -66,6 +67,15 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
     }
   };
 
+  const handleActividadEconomica = async (value) => {
+    await setActividadEconomica(value);
+  };
+
+  const handleProcedenciaFondos = async (value) => {
+    await setProcedenciaFondos(value);
+  };
+
+
 
   const verificarDatos = () => {
     const dataEmpleadorDependiente = {
@@ -79,7 +89,8 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
       correo: correo,
       fechaDeInicio: fechaInicioLabores,
       isss: isss,
-      actividadEconomica: actividadEconomica
+      actividadEconomica: actividadEconomica,
+      procedenciaFondos: procedenciaFondos
     }
     onDataEmpleador(dataEmpleadorDependiente);
     handleNext();
@@ -101,7 +112,6 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [selectedMunicipality, setSelectedMunicipality] = useState(null);
 
-  // Fetch countries on component mount
   useEffect(() => {
     if(tipoTrabajador === "Dependiente" && conoceInfoEmpleador === "Si"){
       fetchCountries()
@@ -115,7 +125,6 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
     
   }, []);
 
-  // Fetch departments when a country is selected
   useEffect(() => {
     if (selectedCountry) {
       fetchDepartments(selectedCountry.codPais)
@@ -126,14 +135,12 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
           console.error("Failed to fetch departments:", error);
         });
 
-      // Reset departments and municipalities when country changes
       setSelectedDepartment(null);
       setMunicipalities([]);
       setSelectedMunicipality(null);
     }
   }, [selectedCountry]);
 
-  // Fetch municipalities when a department is selected
   useEffect(() => {
     if (selectedCountry && selectedDepartment) {
       fetchMunicipalities(
@@ -146,6 +153,8 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
         );
     }
   }, [selectedCountry, selectedDepartment]);
+
+
    //Notification
    const [open, setOpen] = useState(false);
    const [mensajeNoti, setMensaje] = useState("");
@@ -356,7 +365,7 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
                   />
                         <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Celular" value={celular} onChange={(e) => setCelular(e.target.value)} />
                         <TextField required type="email" style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Correo" value={correo} onChange={(e) => setCorreo(e.target.value)} />
-                        <TextField required type="email" style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Fecha de Inicio de Labores con este Empleador" value={fechaInicioLabores} onChange={(e) => setFechaInicioLabores(e.target.value)} />
+                        <TextField required type="date" style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Fecha de Inicio de Labores con este Empleador" value={fechaInicioLabores} onChange={(e) => setFechaInicioLabores(e.target.value)} />
                     </Box>
 
         )}
@@ -372,7 +381,25 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
                     Completa la Información
                 </Typography>
                 <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Número de ISSS - Opcional" multiline rows={2} value={isss} onChange={(e) => setISSS(e.target.value)} />
-                <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Actividad Económica" multiline rows={2} value={actividadEconomica} onChange={(e) => setActividadEconomica(e.target.value)} />
+                <InputLabel htmlFor="actividadEconomica" sx={{mt:3}}>Actividad Económica</InputLabel>
+                <FormControl fullWidth margin="normal">   
+                        <Select required id="actividadEconomica" label="" style={{ backgroundColor: 'white' }} value={actividadEconomica} onChange={(e) => handleActividadEconomica(e.target.value)}>
+                            <MenuItem value="S">Estudiante</MenuItem>
+                            <MenuItem value="E">Empleado</MenuItem>
+                            <MenuItem value="I">Independiente</MenuItem>
+                            <MenuItem value="D">Desempleado</MenuItem>
+                            <MenuItem value="O">Otro</MenuItem>
+                        </Select>
+                </FormControl>
+                <InputLabel htmlFor="procedenciaFondos" sx={{mt:3}}>Procedencia de Fondos</InputLabel>
+                <FormControl fullWidth margin="normal">   
+                        <Select required id="procedenciaFondos" label="" style={{ backgroundColor: 'white' }} value={procedenciaFondos} onChange={(e) => handleProcedenciaFondos(e.target.value)}>
+                            <MenuItem value="S">Estudiante</MenuItem>
+                            <MenuItem value="I">Servicios Profesionales Independientes</MenuItem>
+                            <MenuItem value="C">Comerciante</MenuItem>
+                            <MenuItem value="N">No Aplica</MenuItem>
+                        </Select>
+                </FormControl>
             </Box>
 
         )}
