@@ -1,53 +1,53 @@
 export interface PrintCARequest {
-  fechaFormulario: string; // Nuevo campo añadido
+  fechaFormulario: string; 
   nombreCompleto: string;
   primerNombre: string;
   segundoNombre: string;
   primerApellido: string;
   segundoApellido: string;
   apellidoCasada: string;
-  numeroIsss: string; // Antes numero_isss
-  numeroInpep: string; // Nuevo campo añadido
-  telDomicilio: string; // Nuevo campo añadido
+  numeroIsss: string; 
+  numeroInpep: string; 
+  telDomicilio: string;
   nacionalidad: string;
-  conocidoPor: string; // Antes conocido_por
-  telCelular: string; // Antes tel_celular
-  correoElectronico: string; // Antes correo_electronico
+  conocidoPor: string; 
+  telCelular: string; 
+  correoElectronico: string; 
   direccion: string;
   sexo: string;
-  fechaNacimiento: string; // Antes fecha_nacimiento
-  numeroDocumento: string; // Antes numero_documento
-  tipoDocumento: string; // Antes tipo_documento
-  lugarExpedicion: string; // Antes lugar_expedicion
-  deptoExpedicion: string; // Antes depto_expedicion
-  municipioExpedicion: string; // Antes municipio_expedicion
-  paisExpedicion: string; // Antes pais_expedicion
-  fechaExpedicion: string; // Antes fecha_expedicion
-  fechaExpiracion: string; // Antes fecha_expiracion
-  estadoFamiliar: string; // Antes estado_familiar
-  resideEnSalvador: string; // Antes reside_en_salvador
-  referencia: string; // Nuevo campo añadido
+  fechaNacimiento: string; 
+  numeroDocumento: string; 
+  tipoDocumento: string; 
+  lugarExpedicion: string; 
+  deptoExpedicion: string; 
+  municipioExpedicion: string; 
+  paisExpedicion: string; 
+  fechaExpedicion: string;
+  fechaExpiracion: string;
+  estadoFamiliar: string; 
+  resideEnSalvador: string;
+  referencia: string; 
   departamento: string;
-  municipio: string; // Corregido de 'municipo'
+  municipio: string; 
   pais: string;
-  tipoTrabajador: string; // Antes tipo_trabajador
-  primeraRelacionLaboral: string; // Nuevo campo añadido
+  tipoTrabajador: string; 
+  primeraRelacionLaboral: string;
   profesion: string;
-  masDeUnEmpleador: string; // Nuevo campo añadido
-  razonSocial: string; // Antes razon_social
-  fechaInicioLabores: string; // Antes fecha_inicio_labores
+  masDeUnEmpleador: string; 
+  razonSocial: string; 
+  fechaInicioLabores: string;
   nit: string;
-  telefonoEmpleador: string; // Antes telefono_empleador
-  deptoEmpleador: string; // Antes depto_empleador
-  municipioEmpleador: string; // Antes municipio_empleador
-  paisEmpleador: string; // Antes pais_empleador
-  codigoPostalEmpleador: string; // Nuevo campo añadido
-  direccionEmpleador: string; // Nuevo campo añadido
-  correoElectronicoEmpleador: string; // Antes correo_electronico_empleador
-  codigoAgente: string; // Antes codigo_agente
+  telefonoEmpleador: string; 
+  deptoEmpleador: string; 
+  municipioEmpleador: string;
+  paisEmpleador: string; 
+  codigoPostalEmpleador: string; 
+  direccionEmpleador: string; 
+  correoElectronicoEmpleador: string;
+  codigoAgente: string; 
   esPep: string;
   familiarPep: string;
-  procedenciaFondos: string; // Nuevo campo añadido
+  procedenciaFondos: string; 
   actividadEconomica: string;
-  firmaObservaciones: string; // Nuevo campo añadido
+  firmaObservaciones: string;
 }

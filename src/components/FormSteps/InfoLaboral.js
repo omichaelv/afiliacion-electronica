@@ -38,6 +38,7 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
   const [celular, setCelular] = useState("");
   const [correo, setCorreo] = useState("");
   const [nit, setNit] = useState("");
+  const [razonSocial, setrazonSocial] = useState("");
   const [fechaInicioLabores, setFechaInicioLabores] = useState("");
   
 
@@ -56,7 +57,7 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
 
     await setConoceInfoEmpleador(value);
 
-    if(tipoTrabajador === "Dependiente" && value === "Si"){
+    if(tipoTrabajador === "D" && value === "Si"){
 
       fetchCountries()
       .then((response) => setCountries(response.paises))
@@ -82,6 +83,7 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
       tipoTrabajador: tipoTrabajador,
       conoceInfoEmpleador: conoceInfoEmpleador,
       nit: nit,
+      razonSocial: razonSocial,
       pais: selectedCountry,
       departamento: selectedDepartment,
       municipio: selectedMunicipality,
@@ -113,7 +115,7 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
   const [selectedMunicipality, setSelectedMunicipality] = useState(null);
 
   useEffect(() => {
-    if(tipoTrabajador === "Dependiente" && conoceInfoEmpleador === "Si"){
+    if(tipoTrabajador === "D" && conoceInfoEmpleador === "Si"){
       fetchCountries()
       .then((response) => setCountries(response.paises))
       .catch((error) =>{ 
@@ -268,7 +270,7 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
             sx={{ mb: 2 }}
           >
             <FormControlLabel
-              value="Dependiente"
+              value="D"
               control={<Radio color="primary" />}
               label={
                 <Box>
@@ -284,7 +286,7 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
           </Paper>
           <Paper style={{ backgroundColor: "white" }} elevation={3}>
             <FormControlLabel
-              value="Independiente"
+              value="I"
               control={<Radio color="primary" />}
               label={
                 <Box style={{ width: "100%" }}>
@@ -299,7 +301,7 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
             />
           </Paper>
         </RadioGroup>
-        {tipoTrabajador === "Dependiente" && (
+        {tipoTrabajador === "D" && (
             <Box sx={{mx:2}} >
               <InputLabel htmlFor="conoceInfoEmpleador" sx={{mt:3}}>¿Conoces la información de tu empleador?</InputLabel>
                 <FormControl fullWidth margin="normal">
@@ -314,9 +316,10 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
             
 
         )}
-        {(tipoTrabajador === "Dependiente" && conoceInfoEmpleador === "Si") &&(
+        {(tipoTrabajador === "D" && conoceInfoEmpleador === "Si") &&(
                      <Box  sx={{mx:2}}>
                         <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="NIT" value={nit} onChange={(e) => setNit(e.target.value)} />
+                        <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Nombre Denominaccion o Razon Social" value={razonSocial} onChange={(e) => setrazonSocial(e.target.value)} />
                         {/* Country Autocomplete */}
                   <Autocomplete
                     id="country-select"
@@ -369,7 +372,7 @@ function InfoLaboral({ onNext, onDataEmpleador }) {
                     </Box>
 
         )}
-        {tipoTrabajador === "Independiente" && (
+        {tipoTrabajador === "I" && (
             <Box sx={{mx:2}} >
                 <Typography
                     variant="body4"

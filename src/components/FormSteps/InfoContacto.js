@@ -29,13 +29,18 @@ function InfoContacto({ onNext, onDataContacto }) {
   
 
   const handleNext = () => {
+    let resideEnSalvador = "No";
+    if(selectedCountry.nombre.toUpperCase() === "EL SALVADOR"){
+      resideEnSalvador = "Si";
+    }
     const dataContacto = {
       pais:selectedCountry,
       departamento:selectedDepartment || "",
       municipio: selectedMunicipality || "",
       direccion: direccion,
       celular: celular,
-      correo: correo
+      correo: correo,
+      residenEnSalvador: resideEnSalvador
     }
     onDataContacto(dataContacto);
     onNext();
