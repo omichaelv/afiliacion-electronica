@@ -127,8 +127,8 @@ function Peps({ onNext, onPeps }) {
         nombre: nombre,
         correoElectronico: correo,
         telefono: telefono,
-        departamento: selectedDepartment.nombre,
-        municipio: selectedMunicipality.nombre,
+        departamento: selectedDepartment.nombreDepartamento,
+        municipio: selectedMunicipality.nombreMunicipio,
       };
       const pepsEnvio = await sendNotification(request);
       if (pepsEnvio.success) {
@@ -504,6 +504,7 @@ function Peps({ onNext, onPeps }) {
                     getOptionLabel={(option) => option.nombreDepartamento || ""}
                     value={selectedDepartment}
                     onChange={(event, newValue) => {
+                      console.log(newValue);
                       setSelectedDepartment(newValue);
                     }}
                     renderInput={(params) => (

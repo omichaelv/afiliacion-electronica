@@ -128,8 +128,8 @@ function FirmarSolicitud ({onNext, infoBiometrica, infoLaboral, infoContacto, ag
                 fechaInicioLabores: infoLaboral.fechaDeInicio || "",
                 nit: infoLaboral.nit || "",
                 telefonoEmpleador: infoLaboral.celular || "",
-                deptoEmpleador: infoLaboral.departamento.nombre || "",
-                municipioEmpleador: infoLaboral.municipio.nombre || "",
+                deptoEmpleador: infoLaboral.departamento.nombreDepartamento || "",
+                municipioEmpleador: infoLaboral.municipio.nombreMunicipio || "",
                 paisEmpleador: infoLaboral.pais.nombre || "",
                 codigoPostalEmpleador: "", //Investigar
                 direccionEmpleador: "", //Investigar
