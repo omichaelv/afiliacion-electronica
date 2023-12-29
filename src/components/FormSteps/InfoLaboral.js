@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -14,11 +14,18 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Grid,
+  Snackbar,
+  Autocomplete
 } from "@mui/material";
 import logo from '../../logo.svg'
+import PeopleIcon from "@mui/icons-material/People";
+import fetchCountries from "../../services/PaisesService";
+import fetchDepartments from "../../services/DepartamentoService";
+import fetchMunicipalities from "../../services/MunicipiosService";
 
-function InfoLaboral({ onNext }) {
+function InfoLaboral({ onNext, onDataEmpleador }) {
 
   
   const [tipoTrabajador, settipoTrabajador] = useState("");
@@ -26,9 +33,7 @@ function InfoLaboral({ onNext }) {
   const [confirmacion, setConfirmacion] = useState("");
   const [isss, setISSS] = useState("");
   const [actividadEconomica, setActividadEconomica] = useState("");
-  const [departamento, setDepartamento] = useState("");
-  const [municipio, setMunicipio] = useState("");
-  const [pais, setPais] = useState("");
+  
   const [celular, setCelular] = useState("");
   const [correo, setCorreo] = useState("");
   const [nit, setNit] = useState("");
@@ -43,32 +48,116 @@ function InfoLaboral({ onNext }) {
 
   const handleCheckboxChange = (event) => {
     setConfirmacion(event.target.checked);
+    
   };
 
-  const handleConoceInfoEmpleador = (event) => {
-    setConoceInfoEmpleador(event.target.checked);
+  const handleConoceInfoEmpleador = async (value) => {
+
+    await setConoceInfoEmpleador(value);
+    console.log(tipoTrabajador);
+    console.log(conoceInfoEmpleador);
+    if(tipoTrabajador === "Dependiente" && value === "Si"){
+      console.log(tipoTrabajador)
+      fetchCountries()
+      .then((response) => setCountries(response.paises))
+      .catch((error) => {
+        setMensaje("Problemas con el servidor consultando la información");
+        setOpen(true);
+        console.error("Failed to fetch countries:", error)});
+    }
   };
-  const handleDepartamentoChange = (event) => {
-    setDepartamento(event.target.value);
-  };
-  const handleMunicipioChange = (event) => {
-    setMunicipio(event.target.value);
-  };
-  const handlePaisChange = (event) => {
-    setPais(event.target.value);
-  };
+
 
   const verificarDatos = () => {
+    const dataEmpleadorDependiente = {
+      tipoTrabajador: tipoTrabajador,
+      conoceInfoEmpleador: conoceInfoEmpleador,
+      nit: nit,
+      pais: selectedCountry,
+      departamento: selectedDepartment,
+      municipio: selectedMunicipality,
+      celular: celular,
+      correo: correo,
+      fechaDeInicio: fechaInicioLabores,
+      isss: isss,
+      actividadEconomica: actividadEconomica
+    }
+    onDataEmpleador(dataEmpleadorDependiente);
     handleNext();
   };
   const handleNext = () => {
     onNext();
   };
 
+  //DropDowns
+
+  const [countries, setCountries] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [municipalities, setMunicipalities] = useState([]);
+
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [selectedMunicipality, setSelectedMunicipality] = useState(null);
+
+  // Fetch countries on component mount
+  useEffect(() => {
+    if(tipoTrabajador === "Dependiente" && conoceInfoEmpleador === "Si"){
+      fetchCountries()
+      .then((response) => setCountries(response.paises))
+      .catch((error) =>{ 
+        console.error("Failed to fetch countries:", error);
+        setMensaje("Problemas con el servidor consultando la información");
+        setOpen(true);
+      });
+    }
+    
+  }, []);
+
+  // Fetch departments when a country is selected
+  useEffect(() => {
+    if (selectedCountry) {
+      fetchDepartments(selectedCountry.codPais)
+        .then((response) => setDepartments(response.departamentos))
+        .catch((error) => {
+          setMensaje("Problemas con el servidor consultando la información");
+          setOpen(true);
+          console.error("Failed to fetch departments:", error);
+        });
+
+      // Reset departments and municipalities when country changes
+      setSelectedDepartment(null);
+      setMunicipalities([]);
+      setSelectedMunicipality(null);
+    }
+  }, [selectedCountry]);
+
+  // Fetch municipalities when a department is selected
+  useEffect(() => {
+    if (selectedCountry && selectedDepartment) {
+      fetchMunicipalities(
+        selectedCountry.codPais,
+        selectedDepartment.codDepartamento
+      )
+        .then((response) => setMunicipalities(response.municipios))
+        .catch((error) =>
+          console.error("Failed to fetch municipalities:", error)
+        );
+    }
+  }, [selectedCountry, selectedDepartment]);
+   //Notification
+   const [open, setOpen] = useState(false);
+   const [mensajeNoti, setMensaje] = useState("");
+   const handleCloseNoti = (event, reason) => {
+     if (reason === "clickaway") {
+       return;
+     }
+     setMensaje("");
+     setOpen(false);
+   };
+
   return (
     <Box
       sx={{
-        bgcolor: "#ffffff",
         display: "flex", 
         flexDirection: "column", 
         width: "100%", 
@@ -90,14 +179,63 @@ function InfoLaboral({ onNext }) {
         </Toolbar>
       </AppBar>
 
-      
-      <Box>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleCloseNoti}
+        message={mensajeNoti}
+        action={
+          <Button color="secondary" size="small" onClick={handleCloseNoti}>
+            DESCARTAR
+          </Button>
+        }
+      />
+     
+        
+     <Grid
+        container
+        spacing={0}
+        sx={
+          {
+            // Horizontal margin: 1 on xs, 3 on md and up
+          }
+        }
+      >
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={4}
+          sx={{
+            bgcolor: { md: "#00559c", lg: "#00559c" },
+            display: { xs: "none", md: "none", lg: "block" },
+          }}
+        >
+          
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={8}
+          sx={{ bgcolor: { lg: "white" }, mb: { xs: 5, lg: 0 } }}
+        >
+<Box>
+      <PeopleIcon
+            color={"black"}
+            sx={{
+              fontSize: { lg: "200px" },
+              textAlign: "center",
+              margin: "auto",
+              display: { xs: "none", md: "none", lg: "block" },
+            }}
+          />
         <Typography
           variant="body4"
           component="h3"
           gutterBottom
           align="center"
-          sx={{ mt: 15 }}
+          sx={{ mt: 5 }}
         >
           Información laboral
         </Typography>
@@ -166,29 +304,54 @@ function InfoLaboral({ onNext }) {
 
         )}
         {(tipoTrabajador === "Dependiente" && conoceInfoEmpleador === "Si") &&(
-                     <Box>
+                     <Box  sx={{mx:2}}>
                         <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="NIT" value={nit} onChange={(e) => setNit(e.target.value)} />
-                        <FormControl fullWidth margin="normal">
-                        <InputLabel htmlFor="Departamento">Departamento</InputLabel>
-                        <Select required id="Departamento" label="Departamento" style={{ backgroundColor: 'white' }} value={departamento} onChange={handleDepartamentoChange}>
-                            <MenuItem value="x">Datos</MenuItem>
-                            <MenuItem value="xx">Datos</MenuItem>
-                        </Select>
-                        </FormControl>
-                        <FormControl fullWidth margin="normal">
-                        <InputLabel htmlFor="Municipio">Municipio</InputLabel>
-                        <Select required id="Municipio" label="Municipio" style={{ backgroundColor: 'white' }} value={municipio} onChange={handleMunicipioChange}>
-                            <MenuItem value="x">Datos</MenuItem>
-                            <MenuItem value="xx">Datos</MenuItem>
-                        </Select>
-                        </FormControl>
-                        <FormControl fullWidth margin="normal">
-                        <InputLabel htmlFor="Municipio">Pais de Residencia</InputLabel>
-                        <Select required id="Municipio" label="Municipio" style={{ backgroundColor: 'white' }} value={pais} onChange={handlePaisChange}>
-                            <MenuItem value="x">Datos</MenuItem>
-                            <MenuItem value="xx">Datos</MenuItem>
-                        </Select>
-                        </FormControl>
+                        {/* Country Autocomplete */}
+                  <Autocomplete
+                    id="country-select"
+                    options={countries}
+                    getOptionLabel={(option) => option.nombre || ""}
+                    value={selectedCountry}
+                    onChange={(event, newValue) => {
+                      setSelectedCountry(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="País" />
+                    )}
+                    sx={{ mt: 2 }}
+                  />
+
+                  {/* Department Autocomplete */}
+                  <Autocomplete
+                    id="department-select"
+                    options={departments}
+                    getOptionLabel={(option) => option.nombreDepartamento || ""}
+                    value={selectedDepartment}
+                    onChange={(event, newValue) => {
+                      setSelectedDepartment(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Departamento" />
+                    )}
+                    disabled={!selectedCountry}
+                    sx={{ mt: 2 }}
+                  />
+
+                  {/* Municipality Autocomplete */}
+                  <Autocomplete
+                    id="municipality-select"
+                    options={municipalities}
+                    getOptionLabel={(option) => option.nombreMunicipio || ""}
+                    value={selectedMunicipality}
+                    onChange={(event, newValue) => {
+                      setSelectedMunicipality(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Municipio" />
+                    )}
+                    disabled={!selectedDepartment}
+                    sx={{ mt: 2 }}
+                  />
                         <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Celular" value={celular} onChange={(e) => setCelular(e.target.value)} />
                         <TextField required type="email" style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Correo" value={correo} onChange={(e) => setCorreo(e.target.value)} />
                         <TextField required type="email" style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Fecha de Inicio de Labores con este Empleador" value={fechaInicioLabores} onChange={(e) => setFechaInicioLabores(e.target.value)} />
@@ -241,6 +404,13 @@ function InfoLaboral({ onNext }) {
           </Button>
         </Box>
       </Box>
+      
+        </Grid>
+
+      </Grid>
+      
+
+      
       
    
 

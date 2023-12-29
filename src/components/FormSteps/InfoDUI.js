@@ -4,7 +4,8 @@ import {
   Toolbar,
   Box,
   Typography,
-  Button
+  Button,
+  Grid
 } from "@mui/material";
 import logo from '../../logo.svg'
 
@@ -18,7 +19,7 @@ function InfoDUI({ onNext, infoBiometrica }) {
   return (
     <Box
       sx={{
-        bgcolor: "#ffffff",
+        
         display: "flex", 
         flexDirection: "column", 
         width: "100%", 
@@ -39,14 +40,42 @@ function InfoDUI({ onNext, infoBiometrica }) {
         </Toolbar>
       </AppBar>
 
-      
-      <Box>
+      <Grid
+        container
+        spacing={0}
+        sx={
+          {
+            // Horizontal margin: 1 on xs, 3 on md and up
+          }
+        }
+      >
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={4}
+          sx={{
+            bgcolor: { md: "#00559c", lg: "#00559c" },
+            display: { xs: "none", md: "none", lg: "block" },
+          }}
+        >
+          
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={8}
+          sx={{ bgcolor: { lg: "white" }, mb: { xs: 5, lg: 0 } }}
+        >
+<Box>
         <Box>
             <Typography
                 variant="body4"
                 component="h3"
                 align="center"
-                sx={{ mt: 3 , fontWeight: 'normal' }}
+                sx={{ mt: 3 , fontSize: { lg: "30px" },
+                fontWeight: { lg: "bold" }, }}
             >
                 La información conforme a tu DUI y RNPN es la siguiente: 
             </Typography>
@@ -68,7 +97,7 @@ function InfoDUI({ onNext, infoBiometrica }) {
                 align="center"
                 sx={{ mt: 1, fontWeight: 'bold' }}
             >
-                {infoBiometrica.data.dui}
+                {infoBiometrica?.data.dui || ""}
             </Typography>
         </Box>
 
@@ -87,7 +116,7 @@ function InfoDUI({ onNext, infoBiometrica }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                {infoBiometrica.data.nom1} {infoBiometrica.data.nom2}
+                {infoBiometrica?.data.nom1 || ""} {infoBiometrica?.data.nom2  || ""}
             </Typography>
         </Box>
 
@@ -106,7 +135,7 @@ function InfoDUI({ onNext, infoBiometrica }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                {infoBiometrica.data.ape1} {infoBiometrica.data.ape2}
+                {infoBiometrica?.data.ape1 || ""} {infoBiometrica?.data.ape2 || ""}
             </Typography>
         </Box>
 
@@ -125,7 +154,7 @@ function InfoDUI({ onNext, infoBiometrica }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                {infoBiometrica.data.sexo}
+                {infoBiometrica?.data.sexo || ""}
             </Typography>
         </Box>
 
@@ -144,7 +173,7 @@ function InfoDUI({ onNext, infoBiometrica }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                {infoBiometrica.data.estaFami}
+                {infoBiometrica?.data.estaFami || ""}
             </Typography>
         </Box>
 
@@ -163,7 +192,7 @@ function InfoDUI({ onNext, infoBiometrica }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                {infoBiometrica.data.estaFami}
+                {infoBiometrica?.data.estaFami || ""}
             </Typography>
         </Box>
 
@@ -182,7 +211,7 @@ function InfoDUI({ onNext, infoBiometrica }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                {infoBiometrica.data.fechNaci}
+                {infoBiometrica?.data.fechNaci || ""}
             </Typography>
         </Box>
         
@@ -201,7 +230,7 @@ function InfoDUI({ onNext, infoBiometrica }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                {infoBiometrica.data.fechExpe}
+                {infoBiometrica?.data.fechExpe || ""}
             </Typography>
         </Box>
 
@@ -220,7 +249,7 @@ function InfoDUI({ onNext, infoBiometrica }) {
                 align="center"
                 sx={{ mt: 1,fontWeight: 'bold' }}
             >
-                {infoBiometrica.data.fechVenc}
+                {infoBiometrica?.data.fechVenc || ""}
             </Typography>
         </Box>
        
@@ -244,6 +273,12 @@ function InfoDUI({ onNext, infoBiometrica }) {
           </Button>
         </Box>
       </Box>
+        </Grid>
+
+      </Grid>
+
+      
+      
     
 
     </Box>

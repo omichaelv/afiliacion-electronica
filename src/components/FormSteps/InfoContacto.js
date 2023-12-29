@@ -10,7 +10,9 @@ import {
   Select,
   MenuItem,
   TextField,
-  Autocomplete
+  Autocomplete,
+  Grid,
+  Snackbar
 } from "@mui/material";
 import logo from '../../logo.svg'
 import fetchCountries from "../../services/PaisesService";
@@ -27,6 +29,15 @@ function InfoContacto({ onNext, onDataContacto }) {
   
 
   const handleNext = () => {
+    const dataContacto = {
+      pais:selectedCountry,
+      departamento:selectedDepartment || "",
+      municipio: selectedMunicipality || "",
+      direccion: direccion,
+      celular: celular,
+      corre: correo
+    }
+    onDataContacto(dataContacto);
     onNext();
   };
 
@@ -77,10 +88,21 @@ function InfoContacto({ onNext, onDataContacto }) {
     }
   }, [selectedCountry, selectedDepartment]);
 
+    //Notification
+    const [open, setOpen] = useState(false);
+    const [mensajeNoti, setMensaje] = useState("");
+    const handleCloseNoti = (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      setMensaje("");
+      setOpen(false);
+    };
+
   return (
     <Box
       sx={{
-        bgcolor: "#ffffff",
+
         display: "flex", 
         flexDirection: "column", 
         width: "100%", 
@@ -104,22 +126,69 @@ function InfoContacto({ onNext, onDataContacto }) {
         </Toolbar>
       </AppBar>
 
-      
-      <Box>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleCloseNoti}
+        message={mensajeNoti}
+        action={
+          <Button color="secondary" size="small" onClick={handleCloseNoti}>
+            DESCARTAR
+          </Button>
+        }
+      />
+
+      <Grid
+        container
+        spacing={0}
+        sx={
+          {
+            // Horizontal margin: 1 on xs, 3 on md and up
+          }
+        }
+      >
+         <Grid
+          item
+          xs={12}
+          md={12}
+          lg={4}
+          sx={{
+            bgcolor: { md: "#00559c", lg: "#00559c" },
+            display: { xs: "none", md: "none", lg: "block" },
+          }}
+        >
+
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={8}
+          sx={{ bgcolor: { lg: "white" }, mb: { xs: 5, lg: 0 } }}
+        >
+          <Box>
+        
+
+        <Box sx={{m:1, textAlign:"center", alignContent:"center", align:"center"}} >
+        
+        
+        <Box sx={{ minWidth: 120, maxWidth:{lg:"50%"},  }}>
         <Typography
           variant="body4"
           component="h3"
           gutterBottom
           align="center"
-          sx={{ mt: 15 }}
+          sx={{ 
+            mt: 15,
+            fontSize: { lg: "30px" },
+            fontWeight: { lg: "bold" },
+          
+          }}
         >
           Información de Contacto
         </Typography>
-
-        <Box sx={{m:1}} >
         <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Dirección" multiline rows={2} value={direccion} onChange={(e) => setDireccion(e.target.value)} />
-        
-        <Box sx={{ minWidth: 120 }}>
+
                   {/* Country Autocomplete */}
                   <Autocomplete
                     id="country-select"
@@ -166,16 +235,18 @@ function InfoContacto({ onNext, onDataContacto }) {
                     disabled={!selectedDepartment}
                     sx={{ mt: 2 }}
                   />
+                  <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Celular" value={celular} onChange={(e) => setCelular(e.target.value)} />
+         <TextField required type="email" style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Correo" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+
                 </Box>
         
-         <TextField required style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Celular" value={celular} onChange={(e) => setCelular(e.target.value)} />
-         <TextField required type="email" style={{ backgroundColor: 'white' }} fullWidth margin="normal" label="Correo" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+         
          
 
 
 
 
-        <Box align="center">
+        <Box align="center" sx={{maxWidth:{lg:"50%"}}} >
           <Button
             fullWidth
             variant="contained"
@@ -188,6 +259,12 @@ function InfoContacto({ onNext, onDataContacto }) {
         </Box>
        
       </Box>
+        </Grid>
+
+      </Grid>
+
+      
+      
       
     </Box>
   );

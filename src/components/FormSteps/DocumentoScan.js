@@ -136,7 +136,7 @@ function DocumentoScan({ onNext, onScanId }) {
 
   const onExtractionFinished = (extractionResult) => {
     console.warn("[SelphID] onExtractionFinished");
-    console.log(extractionResult.detail);
+    console.log(extractionResult);
 
     setIsWidgetCaptureStarted(false);
     setcapturarData(true);

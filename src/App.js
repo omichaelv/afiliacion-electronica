@@ -18,15 +18,15 @@ const App = () => {
   const [scanIdDetails, setScanIdDetails] = useState(null); 
   const [biometricResults, setBiometricResults] = useState(null);
   const [dataContacto, setDataContacto] = useState(null);
+  const [dataEmpleador, setDataEmpleador] = useState(null);
 
   //Function to Save Data From Steps
   const handleAgenteDetails = (details) => {
-    console.log("LA PANTALLA ME DIO ", details);
     setAgenteDetails(details);
   };
 
   //Steps States
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(3);
 
   //Step Functions
 
@@ -64,6 +64,16 @@ const App = () => {
 
   };
 
+  const irCorreoConfirmacion= () => {
+    setCurrentStep(9);
+
+  };
+
+  const irMensajeConfirmacion = () => {
+    setCurrentStep(10);
+
+  };
+
   
 
   return (
@@ -75,9 +85,9 @@ const App = () => {
       {currentStep === 3 && (<DocumentoScan onNext={irSelfieMensaje} onScanId={setScanIdDetails} />)}
       {currentStep === 4 && (<SelfieMensaje onNext={irSelfieCaptura}  />)}
       {currentStep === 5 && (<SelfieCaptura onNext={irDatosResumen} onSelfi={setBiometricResults} documentoData={scanIdDetails}/>)}
-      {currentStep === 6 && (<InfoDUI onNext={irDatosContacto} />)}
+      {currentStep === 6 && (<InfoDUI onNext={irDatosContacto} infoBiometrica={biometricResults} />)}
       {currentStep === 7 && (<InfoContacto onNext={irInfoLaboral} onDataContacto={setDataContacto} />)}
-      {currentStep === 8 && (<InfoLaboral onNext={irInfoLaboral} />)}
+      {currentStep === 8 && (<InfoLaboral onNext={irInfoLaboral} onDataEmpleador={setDataEmpleador} />)}
       
     </div>
   );
