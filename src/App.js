@@ -10,6 +10,7 @@ import InfoContacto from './components/FormSteps/InfoContacto';
 import InfoLaboral from './components/FormSteps/InfoLaboral';
 import VerificarCorreo from './components/FormSteps/verificacionCorreo';
 import VerificarTelefono from './components/FormSteps/verificarTelefono';
+import FirmarSolicitud from './components/FormSteps/FirmarSolicitud';
 
 const App = () => {
   
@@ -28,7 +29,7 @@ const App = () => {
   };
 
   //Steps States
-  const [currentStep, setCurrentStep] = useState(10);
+  const [currentStep, setCurrentStep] = useState(1);
 
   //Step Functions
 
@@ -76,6 +77,16 @@ const App = () => {
 
   };
 
+  const irFirmar = () => {
+    setCurrentStep(11);
+
+  };
+
+  const irEncuesta = () => {
+    setCurrentStep(12);
+
+  };
+
   
 
   return (
@@ -91,8 +102,8 @@ const App = () => {
       {currentStep === 7 && (<InfoContacto onNext={irInfoLaboral} onDataContacto={setDataContacto} />)}
       {currentStep === 8 && (<InfoLaboral onNext={irCorreoConfirmacion} onDataEmpleador={setDataEmpleador} />)}
       {currentStep === 9 && (<VerificarCorreo onNext={irMensajeConfirmacion} infoContacto={dataContacto} documentoData={biometricResults} />)}
-      {currentStep === 10 && (<VerificarTelefono onNext={irMensajeConfirmacion} infoContacto={dataContacto} documentoData={biometricResults} />)}
-      
+      {currentStep === 10 && (<VerificarTelefono onNext={irFirmar} infoContacto={dataContacto} documentoData={biometricResults} />)}
+      {currentStep === 11 && (<FirmarSolicitud onNext={irEncuesta} infoContacto={dataContacto} documentoData={biometricResults} />)}
     </div>
   );
 };

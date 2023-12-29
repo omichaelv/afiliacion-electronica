@@ -8,28 +8,17 @@ import { format } from 'date-fns';
 
 
 function FirmarSolicitud ({onNext, infoBiometrica, infoLaboral, infoContacto, agente}) {
-    const [code, setCode] = useState(Array(6).fill(''));
     const [componentMounted, setComponentMounted] = useState(false);
     const [infoFirmantes, setInfoFirmantes] = useState(null);
     const [infoCA, setInfoCA] = useState(null);
     const [firmarDocumentoData, setFirmarDocumento] = useState(null);
   
-    const handleChange = (index) => (e) => {
-      const newCode = [...code];
-      newCode[index] = e.target.value;
-      setCode(newCode);
-  
-      // Auto-focus to next field if there's a next field and current input is filled
-      if (e.target.nextSibling && e.target.value) {
-        e.target.nextSibling.focus();
-      }
-    };
-  
     useEffect(() => {
       if (!componentMounted) {
-        setComponentMounted(true);
+        
         handleObtenerFirmante();
         handleObtenerSolicitud();
+        setComponentMounted(true);
       }
     }, []);
   
@@ -83,7 +72,7 @@ function FirmarSolicitud ({onNext, infoBiometrica, infoLaboral, infoContacto, ag
             
             const codeEnvio = await getSignatoryDetails();
             if (codeEnvio.success) {
-                setInfoFirmantes(codeEnvio)
+                setInfoFirmantes(codeEnvio);
             } else {
               // handle error, show message, etc.
               setMensaje(codeEnvio.mensaje);
@@ -97,6 +86,7 @@ function FirmarSolicitud ({onNext, infoBiometrica, infoLaboral, infoContacto, ag
         };
   
         const handleObtenerSolicitud = async () => {
+            console.log("Entre");
           try {
             const request = {
                 fechaFormulario : format(new Date(), 'dd/MM/yyyy'),
@@ -144,7 +134,7 @@ function FirmarSolicitud ({onNext, infoBiometrica, infoLaboral, infoContacto, ag
                 codigoPostalEmpleador: "", //Investigar
                 direccionEmpleador: "", //Investigar
                 correoElectronicoEmpleador: infoLaboral.correo || "",
-                codigoAgente: agente || "",
+                codigoAgente: agente.codigoAgente || "",
                 esPep: "N",
                 familiarPep: "N",
                 procedenciaFondos: infoLaboral.procedenciaFondos || "",
@@ -257,21 +247,7 @@ Utilice las firmas electrónicas para automatizar sus flujos de trabajo y así m
 
 Una firma electrónica, también llamada e-signature en inglés, es un concepto legal muy similar a su equivalente en papel. Es una clave privada, un símbolo o un proceso electrónico que está adjunto o asociado de forma lógica con un contrato u otro registro, y que es ejecutado o utilizado por una persona como comprobante
         </Typography>
-        <Grid container spacing={2} justifyContent="center">
-          {code.map((num, index) => (
-            <Grid item xs={2} key={index}>
-              <TextField
-                variant="outlined"
-                inputProps={{
-                  maxLength: 1,
-                  style: { textAlign: 'center', padding: '10px' },
-                }}
-                value={num}
-                onChange={handleChange(index)}
-              />
-            </Grid>
-          ))}
-        </Grid>
+        
         <Grid container spacing={2} style={{ marginTop: '20px' }}>
           <Grid item xs={12}>
             <Button variant="contained" color="primary" onClick={handleSubmit}>

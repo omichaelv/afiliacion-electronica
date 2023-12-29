@@ -127,8 +127,8 @@ function Peps({ onNext, onPeps }) {
         nombre: nombre,
         correoElectronico: correo,
         telefono: telefono,
-        departamento: selectedDepartment,
-        municipio: selectedMunicipality,
+        departamento: selectedDepartment.nombre,
+        municipio: selectedMunicipality.nombre,
       };
       const pepsEnvio = await sendNotification(request);
       if (pepsEnvio.success) {
