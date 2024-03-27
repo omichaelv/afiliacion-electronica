@@ -19,6 +19,7 @@
 .env.production.local
 
 .env
+/proxy/.env
 
 npm-debug.log*
 yarn-debug.log*
